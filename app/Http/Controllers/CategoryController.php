@@ -27,7 +27,7 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        return view('newCategory',['id'=>Auth::id(),'active'=>'Добавить категорию']);
+        return view('newCategoryForm',['user_id'=>Auth::id(),'active'=>'Добавить категорию']);
     }
 
     /**
@@ -38,7 +38,8 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        DB::transaction(function () use ($request) {
+        
+        $res=DB::transaction(function () use ($request) {
         $category = $request->input('category');
         $owner_id=Auth::id();
         $user = User::find(Auth::id());
@@ -52,17 +53,27 @@ class CategoryController extends Controller
         }
         else{
             
-            return "Категория ".'"'.$category.'"'." уже существует ";
+            echo "Категория ".'"'.$category.'"'." уже существует ";
+            return false;
         }
         Category::create([
             'owner_id'=>$owner_id,
             'category'=>$category
 
             ]);
+            echo  "Категория ".'"'.$request->input('category').'"'." успешно создана ";
+            return true;
         });
-       
-            
-        return "Категория ".'"'.$request->input('category').'"'." успешно создана ";
+       if($res){
+           return view('newCategoryForm',['active'=>'Добавить категорию']);
+           
+       }
+       else{
+          return view('welcome',['active'=>'Главная']);
+       }
+        
+        
+        
     }
 
     /**

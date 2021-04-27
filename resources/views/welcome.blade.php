@@ -59,12 +59,12 @@
                         
 
                 @auth
-                    <x-desktop>
-                           <x-top-menu ></x-top-menu>
+                    <x-desktop :active="$active">
+                           
                         
 
                     </x-desktop>
-                    @include('components.desktop')
+                    
                     @livewire('hello-world',['contacts'=>['ejik','ser','per']])
                 @else
                     @include('about')

@@ -15,7 +15,7 @@ class TopMenu extends Component
     'Найти'=>'/',
     'О сайте'=>'/' 
     ];
-    public $active='Главная';
+    public $active;
     public $activeStyle = 'font-extrabold';
 
     /**

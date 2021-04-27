@@ -8,14 +8,15 @@ class Desktop extends Component
 {
     public $mode;
     public $category;
+    public $active ;
     /**
      * Create a new component instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct($active ='Главная')
     {
-        //
+        $this->active =$active ;
     }
 
     /**
