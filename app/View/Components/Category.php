@@ -4,20 +4,20 @@ namespace App\View\Components;
 
 use Illuminate\View\Component;
 
-class Desktop extends Component
+
+class Category extends Component
 {
-    public $mode;
     public $category;
-    public $active ;
+    public $id;
+    public $owner_id;
     /**
      * Create a new component instance.
      *
      * @return void
      */
-    public function __construct( $active ='Главная')
+    public function __construct( $category)
     {
-        $this->active =$active ;
-        
+        $this->category = $category;
     }
 
     /**
@@ -27,6 +27,6 @@ class Desktop extends Component
      */
     public function render()
     {
-        return view('components.desktop');
+        return view('components.category');
     }
 }

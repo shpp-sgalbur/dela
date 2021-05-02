@@ -22,7 +22,8 @@ Route::get('/dashboard', function () {
 })->middleware(['auth'])->name('dashboard');
 
 /*--------*/
-Route::resource('category', \App\Http\Controllers\CategoryController::class)->middleware('auth');;
+Route::resource('category', \App\Http\Controllers\CategoryController::class)->middleware('auth');
+Route::resource('deal', \App\Http\Controllers\DealController::class);
 //Route::post('user/{id}/create/store',[\App\Http\Controllers\CategoryController::class,'store'])->name('createCategory');
 
 require __DIR__.'/auth.php';

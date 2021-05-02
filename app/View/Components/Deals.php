@@ -3,21 +3,19 @@
 namespace App\View\Components;
 
 use Illuminate\View\Component;
+use App\Models\Deal;
 
-class Desktop extends Component
+class Deals extends Component
 {
-    public $mode;
-    public $category;
-    public $active ;
+    public $deals;
     /**
      * Create a new component instance.
      *
      * @return void
      */
-    public function __construct( $active ='Главная')
+    public function __construct()
     {
-        $this->active =$active ;
-        
+        $this->deals = Deal::all();
     }
 
     /**
@@ -27,6 +25,6 @@ class Desktop extends Component
      */
     public function render()
     {
-        return view('components.desktop');
+        return view('components.deals');
     }
 }

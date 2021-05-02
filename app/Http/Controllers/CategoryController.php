@@ -17,7 +17,8 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        //
+        $categories = Category::all();
+        return view('Components.categories',['categories' => $categories]);
     }
 
     /**
@@ -39,37 +40,39 @@ class CategoryController extends Controller
     public function store(Request $request)
     {
         
-        $res=DB::transaction(function () use ($request) {
-        $category = $request->input('category');
+        $category=DB::transaction(function () use ($request) {
+        $category_name = $request->input('category');
         $owner_id=Auth::id();
         $user = User::find(Auth::id());
         
         $categories_arr = explode(';', $user->categories);
-        $key = array_search($category, $categories_arr);            
+        $key = array_search($category_name, $categories_arr);            
         if($key === false){
-            $categories_arr[] = $category;
+            $categories_arr[] = $category_name;
             $user->categories = implode(';', $categories_arr);
             $user->save();
         }
         else{
             
-            echo "Категория ".'"'.$category.'"'." уже существует ";
+            echo "Категория ".'"'.$category_name.'"'." уже существует ";
             return false;
         }
-        Category::create([
-            'owner_id'=>$owner_id,
-            'category'=>$category
+        $category = new Category;
+            $category->owner_id=$owner_id;
+            $category->category=$category_name;
+            $category->save();
 
-            ]);
+            
             echo  "Категория ".'"'.$request->input('category').'"'." успешно создана ";
-            return true;
+            return $category;
         });
-       if($res){
-           return view('newCategoryForm',['active'=>'Добавить категорию']);
+       if($category){
+           return view('showCategory',['active'=>'Добавить категорию',
+               'category'=>$category]);
            
        }
        else{
-          return view('welcome',['active'=>'Главная']);
+          return view('home',['active'=>'Главная']);
        }
         
         
@@ -84,7 +87,8 @@ class CategoryController extends Controller
      */
     public function show($id)
     {
-        //
+        $category = Category::find($id);
+        return view('Components.category',['category'=>$category]);
     }
 
     /**

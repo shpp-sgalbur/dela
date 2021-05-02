@@ -1,3 +1,3 @@
-<x-main>
-    <x-desktop :active="$active"> </x-desktop>
-</x-main>
+<x-act :active="$active">
+    
+</x-act>
