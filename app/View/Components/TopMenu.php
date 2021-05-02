@@ -7,13 +7,13 @@ use Illuminate\View\Component;
 class TopMenu extends Component
 {
     public $menu=[
-    'Главная'=>'/',
-    'Расставить приоритеты'=>'/',
-    'Добавить категорию'=>'category/create',
-    'Редактировать категорию'=>'/',
-    'Добавить дело'=>'/',
-    'Найти'=>'/',
-    'О сайте'=>'/' 
+    'Главная'=>'home',
+    'Расставить приоритеты'=>'home',
+    'Добавить категорию'=>'category.create',
+    'Редактировать категорию'=>'home',
+    'Добавить дело'=>'home',
+    'Найти'=>'home',
+    'О сайте'=>'home' 
     ];
     public $active;
     public $activeStyle = 'font-extrabold';
