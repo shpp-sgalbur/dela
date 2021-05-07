@@ -1,3 +1,4 @@
+
 <div class="m-2 border-solid border-green-500 border-2  box-border">
     <div class="flex flex-row ">
         <h6 class=" m-2">Список категорий</h6>
@@ -8,12 +9,15 @@
     
     @foreach($categories as $category)
     <div class=" m-2">
-        <div>
+        
+        <div class="{{$currentcategory->id==$category->id?'bg-green-700':''}}">
             <x-category :category="$category"></x-category>
         </div>
        
     </div>
     @endforeach
+    
     <!-- Happiness is not something readymade. It comes from your own actions. - Dalai Lama -->
+    {{ $categories->links()}}
     
 </div>

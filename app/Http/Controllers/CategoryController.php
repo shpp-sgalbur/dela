@@ -28,7 +28,7 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        return view('newCategoryForm',['user_id'=>Auth::id(),'active'=>'Добавить категорию']);
+        return view('newCategoryForm',['user_id'=>Auth::id(),'active'=>'Добавить категорию','mode'=>'CreateCategory']);
     }
 
     /**
@@ -67,7 +67,7 @@ class CategoryController extends Controller
             return $category;
         });
        if($category){
-           return view('showCategory',['active'=>'Добавить категорию',
+           return view('showCategory',['active'=>'Добавить категорию','mode'=>'StorCategory',
                'category'=>$category]);
            
        }
@@ -88,7 +88,13 @@ class CategoryController extends Controller
     public function show($id)
     {
         $category = Category::find($id);
-        return view('Components.category',['category'=>$category]);
+        //dd($category->id);
+        return view('showCategory',
+                [
+                    'current_category'=>$category,
+                    'active'=>"Главная", 
+                    'mode'=>'ShowCategory',  
+                ]);
     }
 
     /**
@@ -99,7 +105,8 @@ class CategoryController extends Controller
      */
     public function edit($id)
     {
-        //
+        $category = Category::find($id);
+        return view('editCategory',['category'=>$category,'active'=> 'Переименовать категорию','mode'=>'EditCategory']);
     }
 
     /**

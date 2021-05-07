@@ -7,16 +7,37 @@ use Illuminate\View\Component;
 class Desktop extends Component
 {
     public $mode;
-    public $category;
+    public $current_category;
     public $active ;
     /**
      * Create a new component instance.
      *
      * @return void
      */
-    public function __construct( $active ='Главная')
+    public function __construct( $active ='Главная',$mode = "Home", $current_category=null)
     {
-        $this->active =$active ;
+        echo $current_category;
+        dd($current_category);
+        switch ($mode){
+            case 'ShowCategory':
+            case 'EditCategory':
+                $this->active="Переименовать категорию";
+                break;
+            case 'Home':
+                $this->active="Главная";
+                break;
+            case 'CreateCategory';
+                
+                $this->active="Добавить категорию";
+                break;
+        }
+           
+            
+            
+        $this->current_category = $current_category ;
+        
+       
+        
         
     }
 

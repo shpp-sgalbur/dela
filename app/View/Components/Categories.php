@@ -8,14 +8,18 @@ use App\Models\Category;
 class Categories extends Component
 {
     public $categories;
+    public $currentcategory;
     /**
      * Create a new component instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct($currentcategory=null)
     {
-        $this->categories = Category::all();
+        //dd($current_category);
+        $this->categories = Category::paginate(10);
+        $this->currentcategory = $currentcategory;
+        //dd($this->current_category);
     }
 
     /**
