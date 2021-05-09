@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 
 class DealController extends Controller
 {
+    public $currentcategory;
     /**
      * Display a listing of the resource.
      *
@@ -21,9 +22,11 @@ class DealController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create($currentcategory=null)
     {
-        //
+        echo 'controller'.$currentcategory.'deal'; 
+        $this->currentcategory=$currentcategory;
+        return view('newDealForm', ['active'=>'Добавить дело', 'mode' =>'createDeal','currentcategory'=>$currentcategory]);
     }
 
     /**

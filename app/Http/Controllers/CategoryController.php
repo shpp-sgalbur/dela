@@ -87,11 +87,11 @@ class CategoryController extends Controller
      */
     public function show($id)
     {
-        $category = Category::find($id);
+        $category = Category::find($id)[0];
         //dd($category->id);
         return view('showCategory',
                 [
-                    'current_category'=>$category,
+                    'currentcategory'=>$category,
                     'active'=>"Главная", 
                     'mode'=>'ShowCategory',  
                 ]);

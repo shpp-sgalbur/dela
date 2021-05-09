@@ -1,14 +1,19 @@
-<x-act :active="$active">
+
+<x-supermain :active="$active" :mode="$mode" :currentcategory="$currentcategory" >
+    
     <div class="m-2 border-solid border-green-500 border-4 rounded-2xl box-border h-40">
         <div class=" m-2 text-3xl">
-            Категория {{$category->category}} 
+            
         </div>
         <div>
             Здесь будет список дел
+            
+            <x-deals :category="$currentcategory"></x-deals>
         </div>
         
     </div>
-    Категория {{$category}}    
-</x-act>
+     
+</x-supermain>
         
         
+ 

@@ -16,7 +16,7 @@ class Categories extends Component
      */
     public function __construct($currentcategory=null)
     {
-        //dd($current_category);
+        //dd($currentcategory);
         $this->categories = Category::paginate(10);
         $this->currentcategory = $currentcategory;
         //dd($this->current_category);

@@ -1,6 +1,3 @@
-<x-act :active="$active">
-    <x-form-create-category >
-
-
-    </x-form-create-category>
-</x-act>
+<x-supermain :active="$active" :mode="$mode" :currentcategory="null">
+    <x-form-create-category ></x-form-create-category>
+</x-supermain>

@@ -7,17 +7,17 @@ use Illuminate\View\Component;
 class Desktop extends Component
 {
     public $mode;
-    public $current_category;
+    public $currentcategory;
     public $active ;
     /**
      * Create a new component instance.
      *
      * @return void
      */
-    public function __construct( $active ='Главная',$mode = "Home", $current_category=null)
+    public function __construct( $active ='Главная',$mode = "Home", $currentcategory=null)
     {
-        echo $current_category;
-        dd($current_category);
+        
+        
         switch ($mode){
             case 'ShowCategory':
             case 'EditCategory':
@@ -30,11 +30,14 @@ class Desktop extends Component
                 
                 $this->active="Добавить категорию";
                 break;
+            case 'createDeal':
+                $this->active="Добавить дело";
         }
            
             
             
-        $this->current_category = $current_category ;
+        $this->currentcategory = $currentcategory ;
+        
         
        
         

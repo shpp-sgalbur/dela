@@ -7,10 +7,11 @@
         </form>
     </div>
     
+    
     @foreach($categories as $category)
     <div class=" m-2">
         
-        <div class="{{$currentcategory->id==$category->id?'bg-green-700':''}}">
+        <div class="{{$currentcategory==$category?'bg-green-300':''}}">
             <x-category :category="$category"></x-category>
         </div>
        

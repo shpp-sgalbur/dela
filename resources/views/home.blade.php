@@ -1,3 +1,4 @@
-<x-act :active="$active">
+<x-supermain :active="$active" :mode="$mode" :currentcategory="null" >
+    <x-deals></x-deals>
     
-</x-act>
+</x-supermain>
