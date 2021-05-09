@@ -3,6 +3,8 @@
 namespace App\View\Components;
 
 use Illuminate\View\Component;
+use Illuminate\Support\Facades\Auth;
+use App\Models\Category;
 
 class TopMenu extends Desktop
 {
@@ -28,7 +30,12 @@ class TopMenu extends Desktop
     public function __construct( $currentcategory=null,$active='Главная')
     {
         $this->active=$active;
-        $this->currentcategory=$currentcategory;
+        if($currentcategory){
+            $this->currentcategory=$currentcategory;
+        }else{
+            $this->currentcategory= Category::where('owner_id',Auth::id())->first();
+        }
+        
         //$this->menu['Добавить дело']="categories/".$currentcategory."/createdeal";
         if($active == 'Переименовать категорию'){
             $this->menu['Редактировать категорию'] = 'category.create';
