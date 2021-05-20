@@ -15,10 +15,19 @@ class CategoryController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index($currentcategory=null, $mode='ShowCategory')
     {
-        $categories = Category::all();
-        return view('Components.categories',['categories' => $categories]);
+        echo 'CategoryController '.$currentcategory.'php';
+        $categories = Category::where('owner_id',Auth::id());
+        
+        
+        if($categories){
+            if(($currentcategory==null))  $currentcategory=$categories->first();
+            
+            return view('home',['categories' => $categories->paginate(3), 'currentcategory'=>$currentcategory, 'category'=>$currentcategory,'active'=>'Главная', 'mode'=>$mode]);
+        }else{
+            return view('no_categories');
+        }
     }
 
     /**
@@ -67,8 +76,9 @@ class CategoryController extends Controller
             return $category;
         });
        if($category){
+          
            return view('showCategory',['active'=>'Добавить категорию','mode'=>'StorCategory',
-               'category'=>$category]);
+               'currentcategory'=>$category]);
            
        }
        else{
@@ -88,7 +98,8 @@ class CategoryController extends Controller
     public function show($id)
     {
         $category = Category::find($id)[0];
-        //dd($category->id);
+        //echo 'CategoryController.Show '.$category;
+        //dd($category);
         return view('showCategory',
                 [
                     'currentcategory'=>$category,
@@ -105,8 +116,8 @@ class CategoryController extends Controller
      */
     public function edit($id)
     {
-        $category = Category::find($id);
-        return view('editCategory',['category'=>$category,'active'=> 'Переименовать категорию','mode'=>'EditCategory']);
+        $category = Category::find($id)[0];
+        return view('editCategory',['currentcategory'=>$category,'active'=> 'Переименовать категорию','mode'=>'EditCategory']);
     }
 
     /**
@@ -118,7 +129,11 @@ class CategoryController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $category = Category::find($id)[0];
+        $category->category = $request->input('category');
+        $category->save();
+        return view('showCategory',['active'=>'Главная','mode'=>'ShowCategory',
+               'currentcategory'=>$category]);
     }
 
     /**

@@ -4,11 +4,13 @@ namespace App\View\Components;
 
 use Illuminate\View\Component;
 use App\Models\Category;
+use Illuminate\Support\Facades\Auth;
 
 class Categories extends Component
 {
     public $categories;
     public $currentcategory;
+    //public $categorypaginator;
     /**
      * Create a new component instance.
      *
@@ -17,8 +19,21 @@ class Categories extends Component
     public function __construct($currentcategory=null)
     {
         //dd($currentcategory);
-        $this->categories = Category::paginate(10);
-        $this->currentcategory = $currentcategory;
+        $allcategories=Category::where('owner_id',Auth::id());
+        //$this->categories= Category::all();
+        
+        $this->categories=$allcategories->paginate(3);
+        
+        //$this->categories=$this->categories->get();
+        if($currentcategory==null){
+            $this->currentcategory = $allcategories->first();
+        }else{
+            
+            $this->currentcategory = $currentcategory;
+        }
+
+        //$this->currentcategory = $this->categories
+        
         //dd($this->current_category);
     }
 
@@ -29,6 +44,6 @@ class Categories extends Component
      */
     public function render()
     {
-        return view('components.categories');
+        return view('components.categories',['currentcategory'=> $this->currentcategory]);
     }
 }

@@ -6,7 +6,7 @@
         </a>
         <div class="flex justify-end w-full ">
             <div class ="border-2 border-green-500 border-solid ml-3 p-1 rounded-lg bg-green-200 h-8 w-8">
-                <a href="{{route('category.show',['category'=>$category, 'id'=>$category->id])}} ">
+                <a href="{{route('category.edit',['category'=>$category, 'id'=>$category->id])}} ">
                     <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
                                 viewBox="0 0 50 50" style="enable-background:new 0 0 50 50;" xml:space="preserve">
                         <title>Переименовать</title>

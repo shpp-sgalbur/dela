@@ -1,12 +1,14 @@
 <x-main>
-    
-    
-    <x-desktop :mode="$mode" :active="$active" :currentcategory="$currentcategory" >
-       
-        {{$active}}
+    <x-desktop :mode="$mode" :active="$active" :category="$currentcategory" :currentcategory="$currentcategory" >
+            
+          
         {{$slot}}
-        {{$mode}}
         
     </x-desktop>
+  
+    
+    
+   
+       
+        
 </x-main>
-

@@ -6,14 +6,15 @@ use Illuminate\View\Component;
 
 class CreatDealForm extends Component
 {
+    public $currentcategory;
     /**
      * Create a new component instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct($currentcategory)
     {
-        //
+        $this->currentcategory=$currentcategory;
     }
 
     /**

@@ -18,20 +18,20 @@ class Deals extends Component
      */
     public function __construct($category=null)
     {
+        
         if($category==null){
+            
             $category= Category::where('owner_id',Auth::id())->first();
             if($category==null){
-                return 'находим все дела категории данного пользователя ';
-            }else{
-                $this->category = $category;
-                $this->deals = Deal::where('category_id', $this->category->id)->paginate(10);
-                if($this->deals != null){
-                    return view('showCategory',['category'=>$this->category,'deals'=> $this->deals]);
-                }
-                
-                
+                echo 'У вас еще не создано ни одной категории';
             }
+            
         }
+         
+                $this->category = $category;
+                //dd($category);
+                $this->deals = Deal::where('category_id', $this->category->id)->paginate(10);
+                
         
         
     }

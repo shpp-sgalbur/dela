@@ -20,6 +20,8 @@ class Desktop extends Component
         
         switch ($mode){
             case 'ShowCategory':
+                $this->active="";
+                break;
             case 'EditCategory':
                 $this->active="Переименовать категорию";
                 break;
@@ -37,7 +39,7 @@ class Desktop extends Component
             
             
         $this->currentcategory = $currentcategory ;
-        
+       // echo 'desktop'.$this->currentcategory.'php';
         
        
         

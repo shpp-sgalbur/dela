@@ -9,17 +9,20 @@ use App\Models\Category;
 class TopMenu extends Desktop
 {
     public $menu=[
-    'Главная'=>'home',
-    'Расставить приоритеты'=>'home',
-    'Добавить категорию'=>'category.create',
-    //'Редактировать категорию'=>'category.edit',
-    'Добавить дело'=>'createDeal',
-    'Найти'=>'home',
-    'О сайте'=>'home' 
+        'Главная'=>'home',
+        'Расставить приоритеты'=>'home',
+        'Добавить категорию'=>'category.create',
+        //'Редактировать категорию'=>'category.edit',
+        'Добавить дело'=>'createDeal',
+        'Поиск'=>'home',
+        'О сайте'=>'home',
+        'Помощь'=>'home',
+        'Мнения и пожелания'=>'home'
     ];
     public $active;
     public $activeStyle = 'font-extrabold';
     public $currentcategory;
+    
     public $deal_id;
 
     /**
@@ -29,20 +32,30 @@ class TopMenu extends Desktop
      */
     public function __construct( $currentcategory=null,$active='Главная')
     {
+        
         $this->active=$active;
         if($currentcategory){
             $this->currentcategory=$currentcategory;
+            $this->menu['Переименовать категорию'] = 'category.edit';
         }else{
-            $this->currentcategory= Category::where('owner_id',Auth::id())->first();
+            if(Auth::id()){
+                $this->currentcategory= Category::where('owner_id',Auth::id())->first();
+                $this->menu['Главная']='category.show';
+            }else{
+                $this->menu['Главная']='home';
+            }
+            
+
+            unset($this->menu['Добавить дело']);
+            //echo 'TopMenu'.Auth::id().'php';
+                        
         }
+        $this->category=$currentcategory;
         
         //$this->menu['Добавить дело']="categories/".$currentcategory."/createdeal";
-        if($active == 'Переименовать категорию'){
-            $this->menu['Редактировать категорию'] = 'category.create';
-        }
-        if($active == 'Переименовать категорию'){
-            $this->menu['Переименовать категорию'] = 'category.create';
-        }
+        
+        //echo "topmenu".$currentcategory.'.php';
+        
         
     }
     
