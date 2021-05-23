@@ -44,6 +44,6 @@ class Categories extends Component
      */
     public function render()
     {
-        return view('components.categories',['currentcategory'=> $this->currentcategory]);
+        return view('components.categories');
     }
 }

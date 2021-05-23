@@ -3,12 +3,15 @@
 namespace App\View\Components;
 
 use Illuminate\View\Component;
+use App\Models\Category;
+use Illuminate\Support\Facades\Auth;
 
 class Desktop extends Component
 {
     public $mode;
     public $currentcategory;
     public $active ;
+    public $slot;
     /**
      * Create a new component instance.
      *
@@ -27,9 +30,12 @@ class Desktop extends Component
                 break;
             case 'Home':
                 $this->active="Главная";
+                $this->currentcategory = Category::where('owner_id',Auth::id())->first();
+                $this->mode=$mode;
+                
                 break;
             case 'CreateCategory';
-                
+                $this->mode=$mode;
                 $this->active="Добавить категорию";
                 break;
             case 'createDeal':

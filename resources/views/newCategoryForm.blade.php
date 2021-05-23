@@ -1,3 +1,3 @@
 <x-supermain :active="$active" :mode="$mode" :currentcategory="null">
-    <x-form-create-category ></x-form-create-category>
+   {{$active}}{{$mode}}
 </x-supermain>

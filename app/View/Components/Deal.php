@@ -3,17 +3,23 @@
 namespace App\View\Components;
 
 use Illuminate\View\Component;
+use App\Models\Category;
 
 class Deal extends Component
 {
+    public $deal;
+    public $category;
     /**
      * Create a new component instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct($deal)
     {
-        //
+        
+        $this->deal = $deal;
+        $this->category = Category::where('id',$deal->category_id)->first();
+        
     }
 
     /**

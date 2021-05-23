@@ -24,7 +24,12 @@ class CategoryController extends Controller
         if($categories){
             if(($currentcategory==null))  $currentcategory=$categories->first();
             
-            return view('home',['categories' => $categories->paginate(3), 'currentcategory'=>$currentcategory, 'category'=>$currentcategory,'active'=>'Главная', 'mode'=>$mode]);
+            return view('home',['categories' => $categories->paginate(3), 
+                                'currentcategory'=>$currentcategory, 
+                                'category'=>$currentcategory,
+                                'active'=>'Главная', 
+                                'mode'=>$mode
+                                ]);
         }else{
             return view('no_categories');
         }
@@ -100,10 +105,10 @@ class CategoryController extends Controller
         $category = Category::find($id)[0];
         //echo 'CategoryController.Show '.$category;
         //dd($category);
-        return view('showCategory',
+        return view('ShowCategory',
                 [
                     'currentcategory'=>$category,
-                    'active'=>"Главная", 
+                    'active'=>"", 
                     'mode'=>'ShowCategory',  
                 ]);
     }
@@ -146,5 +151,8 @@ class CategoryController extends Controller
     {
         //
        
+    }
+    public function voteCreate($id) {
+        
     }
 }

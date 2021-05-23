@@ -1,5 +1,6 @@
 <x-main>
-    <x-desktop :mode="$mode" :active="$active" :category="$currentcategory" :currentcategory="$currentcategory" >
+    
+    <x-desktop :active="$active" :category="$currentcategory" :currentcategory="$currentcategory" :mode="$mode">
             
           
         {{$slot}}

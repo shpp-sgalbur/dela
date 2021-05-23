@@ -18,8 +18,8 @@ class Deals extends Component
      */
     public function __construct($category=null)
     {
-        
-        if($category==null){
+        if(Auth::id()){
+             if($category==null){
             
             $category= Category::where('owner_id',Auth::id())->first();
             if($category==null){
@@ -29,8 +29,11 @@ class Deals extends Component
         }
          
                 $this->category = $category;
-                //dd($category);
+                //dd($this->category->id);
                 $this->deals = Deal::where('category_id', $this->category->id)->paginate(10);
+        }
+        
+       
                 
         
         

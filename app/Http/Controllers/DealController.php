@@ -102,8 +102,11 @@ class DealController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy($id, $category)
     {
-        //
+        
+       
+        Deal::where('id', $id)->delete();
+        return view('showCategory',['currentcategory'=>$category,'active'=>'Главная','mode'=>'ShowCategory','id'=>$id, 'category'=>$category]);
     }
 }
