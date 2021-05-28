@@ -1,11 +1,14 @@
 <x-main>
-    
-    <x-desktop :active="$active" :category="$currentcategory" :currentcategory="$currentcategory" :mode="$mode">
-            
-          
-        {{$slot}}
-        
-    </x-desktop>
+    @auth
+        <x-desktop :active="$active" :category="$currentcategory" :currentcategory="$currentcategory" :mode="$mode">
+
+
+            {{$slot}}
+
+        </x-desktop>
+    @else
+         @include('about')
+    @endauth
   
     
     
