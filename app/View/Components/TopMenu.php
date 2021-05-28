@@ -9,10 +9,10 @@ use App\Models\Category;
 class TopMenu extends Desktop
 {
     public $menu=[
-        'Главная'=>'home',
-        'Расставить приоритеты'=>'home',
+        'Главная'=>'category.show',
+        'Расставить приоритеты'=>'voteCreate',
         'Добавить категорию'=>'category.create',
-        //'Редактировать категорию'=>'category.edit',
+        'Переименовать категорию'=>'category.edit',
         'Добавить дело'=>'createDeal',
         'Поиск'=>'home',
         'О сайте'=>'home',
@@ -38,25 +38,11 @@ class TopMenu extends Desktop
             $this->currentcategory=$currentcategory;
             $this->menu['Переименовать категорию'] = 'category.edit';
         }else{
-            if(Auth::id()){
-                $this->currentcategory= Category::where('owner_id',Auth::id())->first();
-                $this->menu['Главная']='category.show';
-            }else{
-                $this->menu['Главная']='home';
-            }
+            $this->currentcategory= Category::where('owner_id',Auth::id())->first();
             
-
-            unset($this->menu['Добавить дело']);
-            //echo 'TopMenu'.Auth::id().'php';
                         
         }
         $this->category=$currentcategory;
-        
-        //$this->menu['Добавить дело']="categories/".$currentcategory."/createdeal";
-        
-        //echo "topmenu".$currentcategory.'.php';
-        
-        
     }
     
 //    public function setActive($param) {

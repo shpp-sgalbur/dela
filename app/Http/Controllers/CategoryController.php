@@ -100,15 +100,37 @@ class CategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($category, Request $request)
     {
-        $category = Category::find($id)[0];
+        //dump($request->session()->get('attributes'));
+        //if(!isset($countvote)) $countvote=[];
+        //$countvote = $request->session()->get("countvote[$category->id]");
+        if($request->session()->has("countvote")){
+            $arr = $request->session()->get("countvote");
+            if(!array_keys($arr,$category->id)){
+                $request->session()->forget("countvote");
+                $request->session()->push("countvote.[$category->id]", 3);
+            }
+            
+           dump (array_keys($arr,$category->id));
+            //
+                echo '$request->session()->forget(name);';
+          // dump($countvote) ;
+           dump($request->session()->get("countvote"));
+           //dump($request->session()->all());
+        }else{
+            $request->session()->push("countvote.[$category->id]", 3);
+        }
+        
+        //$request->session()->put("countvote[$category->id]", 0);
+        //dump($request->session()->all());
+        //$category = $id;
         //echo 'CategoryController.Show '.$category;
         //dd($category);
         return view('ShowCategory',
                 [
                     'currentcategory'=>$category,
-                    'active'=>"", 
+                    'active'=>"Главная", 
                     'mode'=>'ShowCategory',  
                 ]);
     }
@@ -152,7 +174,5 @@ class CategoryController extends Controller
         //
        
     }
-    public function voteCreate($id) {
-        
-    }
+    
 }

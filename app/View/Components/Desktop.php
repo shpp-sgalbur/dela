@@ -23,7 +23,7 @@ class Desktop extends Component
         
         switch ($mode){
             case 'ShowCategory':
-                $this->active="";
+                $this->active="Главная";
                 break;
             case 'EditCategory':
                 $this->active="Переименовать категорию";
