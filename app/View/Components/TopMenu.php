@@ -36,7 +36,7 @@ class TopMenu extends Desktop
         $this->active=$active;
         if($currentcategory){
             $this->currentcategory=$currentcategory;
-            $this->menu['Переименовать категорию'] = 'category.edit';
+            //$this->menu['Переименовать категорию'] = 'category.edit';
         }else{
             $this->currentcategory= Category::where('owner_id',Auth::id())->first();
             

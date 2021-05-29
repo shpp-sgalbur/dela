@@ -30,7 +30,7 @@ class Deals extends Component
          
                 $this->category = $category;
                 //dd($this->category->id);
-                $this->deals = Deal::where('category_id', $this->category->id)->paginate(10);
+                $this->deals = Deal::where('category_id', $this->category->id)->paginate(4);
         }
         
        
@@ -48,4 +48,5 @@ class Deals extends Component
     {
         return view('components.deals');
     }
+    
 }

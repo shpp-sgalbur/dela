@@ -10,7 +10,7 @@
                             Список дел категории "{{$category->category}}"
                         </div>
                                 
-                   
+                  
         @foreach($deals as $deal)
             <x-deal :deal="$deal" :category="$category"></x-deal>            
         @endforeach

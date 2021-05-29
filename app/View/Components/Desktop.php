@@ -20,27 +20,31 @@ class Desktop extends Component
     public function __construct( $active ='Главная',$mode = "Home", $currentcategory=null)
     {
         
-        
-        switch ($mode){
-            case 'ShowCategory':
-                $this->active="Главная";
-                break;
-            case 'EditCategory':
-                $this->active="Переименовать категорию";
-                break;
-            case 'Home':
-                $this->active="Главная";
-                $this->currentcategory = Category::where('owner_id',Auth::id())->first();
-                $this->mode=$mode;
-                
-                break;
-            case 'CreateCategory';
-                $this->mode=$mode;
-                $this->active="Добавить категорию";
-                break;
-            case 'createDeal':
-                $this->active="Добавить дело";
-        }
+        $this->active=$active;
+        $this->mode=$mode;
+//        switch ($mode){
+//            case 'ShowCategory':
+//                $this->active="Главная";
+//                break;
+//            case 'EditCategory':
+//                $this->active="Переименовать категорию";
+//                break;
+//            case 'Home':
+//                $this->active="Главная";
+//                $this->currentcategory = Category::where('owner_id',Auth::id())->first();
+//                $this->mode=$mode;
+//                
+//                break;
+//            case 'CreateCategory';
+//                $this->mode=$mode;
+//                $this->active="Добавить категорию";
+//                break;
+//            case 'createDeal':
+//                $this->active="Добавить дело";
+//                break;
+//            
+//                
+//        }
            
             
             

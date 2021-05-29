@@ -24,7 +24,7 @@ class CategoryController extends Controller
         if($categories){
             if(($currentcategory==null))  $currentcategory=$categories->first();
             
-            return view('home',['categories' => $categories->paginate(3), 
+            return view('components.supermain',['categories' => $categories->paginate(3), 
                                 'currentcategory'=>$currentcategory, 
                                 'category'=>$currentcategory,
                                 'active'=>'Главная', 
@@ -127,7 +127,7 @@ class CategoryController extends Controller
         //$category = $id;
         //echo 'CategoryController.Show '.$category;
         //dd($category);
-        return view('ShowCategory',
+        return view('components.supermain',
                 [
                     'currentcategory'=>$category,
                     'active'=>"Главная", 
@@ -144,7 +144,7 @@ class CategoryController extends Controller
     public function edit($id)
     {
         $category = Category::find($id)[0];
-        return view('editCategory',['currentcategory'=>$category,'active'=> 'Переименовать категорию','mode'=>'EditCategory']);
+        return view('components.supermain',['currentcategory'=>$category,'active'=> 'Переименовать категорию','mode'=>'EditCategory']);
     }
 
     /**
@@ -159,7 +159,7 @@ class CategoryController extends Controller
         $category = Category::find($id)[0];
         $category->category = $request->input('category');
         $category->save();
-        return view('showCategory',['active'=>'Главная','mode'=>'ShowCategory',
+        return view('components.supermain',['active'=>'Главная','mode'=>'ShowCategory',
                'currentcategory'=>$category]);
     }
 

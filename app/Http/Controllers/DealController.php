@@ -29,7 +29,7 @@ class DealController extends Controller
     {
         //echo 'controller'.$currentcategory.'deal'; 
         $this->currentcategory=$currentcategory;
-        return view('newDealForm', ['active'=>'Добавить дело', 'mode' =>'createDeal','currentcategory'=>$currentcategory]);
+        return view('components.supermain', ['active'=>'Добавить дело', 'mode' =>'createDeal','currentcategory'=>$currentcategory]);
     }
 
     /**
@@ -54,8 +54,10 @@ class DealController extends Controller
 
 
             }
+            $deal->votes = 0;
             $deal->rating=500;
             $deal->category_id=$category->id;
+            $deal->history = '';
             $deal->save(); 
             return view('showCategory',['currentcategory'=>$category,'active'=>'Добавить дело','mode'=>'ShowCategory']);
         }
@@ -107,6 +109,17 @@ class DealController extends Controller
         
        
         Deal::where('id', $id)->delete();
-        return view('showCategory',['currentcategory'=>$category,'active'=>'Главная','mode'=>'ShowCategory','id'=>$id, 'category'=>$category]);
+        return redirect()->route('category.show',['currentcategory'=>$category,'active'=>'Главная','mode'=>'ShowCategory','id'=>$id, 'category'=>$category]);
+    }
+    public function voteCreate(\App\Models\Category $category) {
+       
+        $deals_count = Deal::where('category_id',$category->id)->count();
+        if($deals_count==0){
+            return view('showCategory',['active'=>'Расставить приоритеты','mode'=>'Vote','currentcategory'=>$category]);
+        }
+        echo 'public function voteCreate';
+        dump($deals_count);
+        echo '-----';
+        return view('showCategory',['active'=>'Расставить приоритеты','mode'=>'Vote','currentcategory'=>$category]);
     }
 }

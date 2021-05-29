@@ -1,6 +1,6 @@
 
     <div class="m-2 border-solid border-green-500 border-4 rounded-2xl box-border h-auto">
-     create-deal-form.{{$currentcategory}}blade   
+     
     <h6 class=" m-2 text-3xl">Форма создания нового дела</h6>
     <form action="{{route('storeDeal',['category'=>$currentcategory])}}" method="post" class=" m-2 p-2   ">
         @csrf
