@@ -158,11 +158,12 @@ class DealController extends Controller
             $loserDeal->history = strlen($loserDeal->history)>0 ? $loserDeal->history.','.$add_history2 : $add_history2;
             $winDeal->save();
             $loserDeal->save();
-            dump($winDeal);dump($loserDeal);
+            
             
         });
         session()->push("votes_arr.$winDeal->category_id",$winDeal->id.'-'.$loserDeal->id);
         dump(session('votes_arr'));
+        return view('components.supermain',['active'=>'Расставить приоритеты','mode'=>'Vote','currentcategory'=>$category]);
         
         
     }
