@@ -29,11 +29,13 @@
    
                 </x-creat-deal-form>
             @endif
-            @if($mode=='Vote')            
-            <x-vote-form></x-vote-form>
+            @if($mode=='Vote')    
+            
+            <x-vote-form :category="$currentcategory"></x-vote-form>
             @endif
-            @if($mode='')            
-                
+            @if($mode==='EditDeal')   
+                {{$slot}}
+               
             @endif
             @if($mode='')            
                 

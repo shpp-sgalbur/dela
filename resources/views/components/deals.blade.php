@@ -12,7 +12,7 @@
                                 
                   
         @foreach($deals as $deal)
-            <x-deal :deal="$deal" :category="$category"></x-deal>            
+            <x-deal-comp :deal="$deal" :category="$category"></x-deal-comp>            
         @endforeach
         {{$deals->links()}}
          </div>
