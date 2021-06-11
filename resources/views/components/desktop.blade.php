@@ -34,7 +34,8 @@
             <x-vote-form :category="$currentcategory"></x-vote-form>
             @endif
             @if($mode==='EditDeal')   
-                {{$slot}}
+            <x-form-edit-deal ></x-form-edit-deal>
+                
                
             @endif
             @if($mode='')            

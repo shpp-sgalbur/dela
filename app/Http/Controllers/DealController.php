@@ -83,13 +83,16 @@ class DealController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit($id, Request $request)
     {
+        
         $deal = Deal::find($id);
         
         $category = \App\Models\Category::where('id',$deal->category_id)->first();
         //dd($category);
-        return view('components.form-edit-deal',['active'=>'Редактировать дело','mode'=>'EditDeal','deal'=>$deal, 'currentcategory'=>$category]);
+        //return view('components.form-edit-deal',['deal'=>$deal,'currentcategory'=>$category]);
+        //dd($slot);
+        return view('components.supermain',['active'=>'Редактировать дело','mode'=>'EditDeal', 'currentcategory'=>$category]);
     }
 
     /**

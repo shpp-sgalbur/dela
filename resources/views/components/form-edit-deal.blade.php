@@ -1,12 +1,5 @@
- 
-
-
-<x-main>
-    @auth
-      
-        <x-desktop :active="$active" :category="$currentcategory" :currentcategory="$currentcategory" :mode="$mode"> 
-
-            <div class="m-2 border-solid border-green-500 border-4 rounded-2xl box-border h-auto">
+<div class="m-2 border-solid border-green-500 border-4 rounded-2xl box-border h-auto">
+    
         
             <h6 class=" m-2 text-3xl">Форма редактирования дела в категории <b>{{$currentcategory->category}}</b></h6>
             
@@ -17,15 +10,3 @@
                 <input type="submit" name="btn_category" value="Сохранить" class ="border-2 border-green-500 border-solid ml-3 p-1 rounded-lg bg-green-200 h-10">
             </form>
             </div>
-
-        </x-desktop>
-    @else
-         @include('about')
-    @endauth
-  
-    
-    
-   
-       
-        
-</x-main>
