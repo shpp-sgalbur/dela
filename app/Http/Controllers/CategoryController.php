@@ -55,30 +55,40 @@ class CategoryController extends Controller
     {
         
         $category=DB::transaction(function () use ($request) {
-        $category_name = $request->input('category');
-        $owner_id=Auth::id();
-        $user = User::find(Auth::id());
-        
-        $categories_arr = explode(';', $user->categories);
-        $key = array_search($category_name, $categories_arr);            
-        if($key === false){
-            $categories_arr[] = $category_name;
-            $user->categories = implode(';', $categories_arr);
-            $user->save();
-        }
-        else{
+            $category_name = $request->input('category');
+            $owner_id=Auth::id();
+            $user = User::find(Auth::id());
+
+            $categories_arr = explode(';', $user->categories);
             
-            echo "Категория ".'"'.$category_name.'"'." уже существует ";
-            return false;
-        }
-        $category = new Category;
+            foreach ($categories_arr as $categoty_id){
+                $cat = Category::find($categoty_id);
+                if($cat){
+                    $category_name = $cat->category;
+                    if( $category_name == $cat->category){
+                        echo "Категория ".'"'.$category_name.'"'." уже существует ";
+                        return false;
+                        break;
+                    }
+                }
+                
+            }
+            
+            $category = new Category;
             $category->owner_id=$owner_id;
             $category->category=$category_name;
             $category->save();
-
             
-            echo  "Категория ".'"'.$request->input('category').'"'." успешно создана ";
-            return $category;
+            $categories_arr[] = $category->id;
+            $user->categories = implode(';', $categories_arr);
+            $user->save();
+            
+            
+            
+
+
+                echo  "Категория ".'"'.$request->input('category').'"'." успешно создана ";
+                return $category;
         });
        if($category){
           
@@ -87,7 +97,7 @@ class CategoryController extends Controller
            
        }
        else{
-          return view('home',['active'=>'Главная']);
+          return view('home',['active'=>'Главная', 'mode'=>'Home']);
        }
         
         
@@ -167,12 +177,34 @@ class CategoryController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  int  $category
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy($category)
     {
         //
+        $res=DB::transaction(function () use ($category){
+            $user = User::find(Auth::id());
+            $categories_arr = explode(';', $user->categories);
+            foreach ($categories_arr as $key=>$category_id){
+                if($category_id == $category->id){
+                    unset($categories_arr[$key]);
+                    $user->categories = implode(';', $categories_arr);
+                    $user->save();
+                    $category->delete();
+                    return true;
+                    break;
+                }
+            }
+            return false;
+        });
+        if($res){
+            return redirect()->route('category.index');
+        }
+        else{
+             return view('components.supermain',['active'=>'Главная','mode'=>'ShowCategory',
+               'currentcategory'=>$category]);
+        }
        
     }
     
