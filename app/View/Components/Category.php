@@ -15,9 +15,11 @@ class Category extends Component
      *
      * @return void
      */
-    public function __construct( $category)
+    public function __construct( $category=null)
     {
+        
         $this->category = $category;
+        
     }
 
     /**

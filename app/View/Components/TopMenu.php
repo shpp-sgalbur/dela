@@ -22,7 +22,9 @@ class TopMenu extends Desktop
     public $active;
     public $activeStyle = 'font-extrabold';
     public $currentcategory;
-    
+    //public $category;//категория на которую будет указывать динамически сгенерированная ссылка пункта меню
+
+
     public $deal_id;
 
     /**
@@ -42,7 +44,14 @@ class TopMenu extends Desktop
             
                         
         }
-        $this->category=$currentcategory;
+        if($this->currentcategory == null){
+                unset($this->menu['Главная']);
+                unset($this->menu['Переименовать категорию']);
+                unset($this->menu['Добавить дело']);
+                unset($this->menu['Расставить приоритеты']);
+            }
+        //dd($this->menu);
+        
     }
     
 //    public function setActive($param) {

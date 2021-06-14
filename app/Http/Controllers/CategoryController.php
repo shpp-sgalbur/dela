@@ -17,7 +17,7 @@ class CategoryController extends Controller
      */
     public function index($currentcategory=null, $mode='ShowCategory')
     {
-        echo 'CategoryController '.$currentcategory.'php';
+        //echo 'CategoryController:index '.$currentcategory.'php';
         $categories = Category::where('owner_id',Auth::id());
         
         
@@ -60,11 +60,13 @@ class CategoryController extends Controller
             $user = User::find(Auth::id());
 
             $categories_arr = explode(';', $user->categories);
+            echo 'store';
             
             foreach ($categories_arr as $categoty_id){
+                
                 $cat = Category::find($categoty_id);
                 if($cat){
-                    $category_name = $cat->category;
+                    
                     if( $category_name == $cat->category){
                         echo "Категория ".'"'.$category_name.'"'." уже существует ";
                         return false;
@@ -92,7 +94,7 @@ class CategoryController extends Controller
         });
        if($category){
           
-           return view('showCategory',['active'=>'Добавить категорию','mode'=>'StorCategory',
+           return view('components.supermain',['active'=>'Добавить категорию','mode'=>'StorCategory',
                'currentcategory'=>$category]);
            
        }
@@ -110,8 +112,10 @@ class CategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($category, Request $request)
+    public function show( Request $request, $category=null)
     {
+//        echo 'public function show';
+//        dd($category);
         //dump($request->session()->get('attributes'));
         //if(!isset($countvote)) $countvote=[];
         //$countvote = $request->session()->get("countvote[$category->id]");

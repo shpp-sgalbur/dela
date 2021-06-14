@@ -47,8 +47,13 @@ class Desktop extends Component
 //        }
            
             
+        if($currentcategory){
             
-        $this->currentcategory = $currentcategory ;
+            $this->currentcategory = $currentcategory ;
+        }    
+        else{
+            $this->currentcategory = Category::where('owner_id',Auth::id())->first();
+        }
        // echo 'desktop'.$this->currentcategory.'php';
         
        
