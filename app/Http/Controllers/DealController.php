@@ -60,8 +60,26 @@ class DealController extends Controller
             $deal->rating=500;
             $deal->category_id=$category->id;
             $deal->history = '';
-            $deal->save(); 
-            return view('showCategory',['currentcategory'=>$category,'active'=>'Добавить дело','mode'=>'ShowCategory']);
+            
+            
+            
+            $transaction = DB::transaction(function () use($category, $deal) {
+                
+                $arr_deal_ids = explode(',', $category->deals);
+                $deal->save(); 
+                $arr_deal_ids[] = $deal->id;
+                $category->deals = implode(',', $arr_deal_ids);
+                
+                $category->save();
+            });
+            if($transaction){
+                $msg = "Дело успешно добаавлено";
+            }else{
+                $msg = "Что-то пошло не так";
+            }
+
+            
+            return view('components.supermain',['currentcategory'=>$category,'active'=>'Добавить дело','mode'=>'ShowCategory','msg'=>$msg]);
         }
         
     }
@@ -123,9 +141,25 @@ class DealController extends Controller
      */
     public function destroy($id, $category)
     {
+        $transaction = DB::transaction(function () use($category, $id){
+            Deal::where('id', $id)->delete();
         
+            $arr_deal_ids = explode(',', $category->deals);
+            $key = array_search($id, $arr_deal_ids);
+            unset($arr_deal_ids[$key]);
+            $category->deals = implode(',', $arr_deal_ids);
+            
+            $category->save();
+        });
+        if($transaction){
+                $msg = "Дело успешно удалено";
+            }else{
+                $msg = "Что-то пошло не так, дело не было удалено";
+            }
        
-        Deal::where('id', $id)->delete();
+        
+        
+        
         return redirect()->route('category.show',['currentcategory'=>$category,'active'=>'Главная','mode'=>'ShowCategory','id'=>$id, 'category'=>$category]);
     }
     
