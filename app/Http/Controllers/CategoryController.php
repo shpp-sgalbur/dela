@@ -23,7 +23,7 @@ class CategoryController extends Controller
         
         if($categories){
             if(($currentcategory==null))  $currentcategory=$categories->first();
-            
+    
             return view('components.supermain',['categories' => $categories->paginate(3), 
                                 'currentcategory'=>$currentcategory, 
                                 'category'=>$currentcategory,

@@ -8,6 +8,7 @@ use App\Models\Deal;
 use App\Models\Category;
 
 include __DIR__.'/../../curl/curl.php';
+include __DIR__.'/../../delete_hit.php';
 
 class DealController extends Controller
 {
@@ -46,9 +47,12 @@ class DealController extends Controller
         $deal->content = $request->input('deal');
         if($deal->content !=''){        
             $strUrl = getUrlFromStr($deal->content);
+           
             if($strUrl!=''){
+                
                 $title = titleAsLink($strUrl);
                 if($title!=''){
+                    
                     $deal->content = str_replace($strUrl, $title  , $deal->content);
                 }else{
                     $deal->content = str_replace($strUrl, "<a href ='$strUrl'>$strUrl</a>"  , $deal->content);
@@ -142,8 +146,15 @@ class DealController extends Controller
     public function destroy($id, $category)
     {
         $transaction = DB::transaction(function () use($category, $id){
+            
+            delete_hit($id);
+            
             Deal::where('id', $id)->delete();
-        
+            
+           
+            
+            
+            
             $arr_deal_ids = explode(',', $category->deals);
             $key = array_search($id, $arr_deal_ids);
             unset($arr_deal_ids[$key]);
@@ -227,4 +238,44 @@ class DealController extends Controller
         $Ra=  round($Ra+$K*($Sa-$E));
          Return $Ra;
     }
+    
+//    function delete_hit($id_del) {
+//        global $history_matr;
+//        
+//        $story = $this->getHistory($id_del);
+//        if($story){
+//            $history_matr[$id_del]['history'] = $story;
+//            $pos=0;
+//        }
+//        dump('delete_hit');
+//        dd($story);
+//        
+//    }
+//    
+//    function getHistory($id){
+//        
+//        $hit = $this->getHit($id);   
+//
+//        $resArr = NULL;
+//        if($hit->history !=''){
+//            $votes = explode(',', $hit->history);
+//            
+//            foreach ($votes as $pos => $vote) {
+//                $vote_items = explode(':', $vote);  
+//                $resArr[$pos]['pare_id'] = $vote_items[0];
+//                $resArr[$pos]['pare_chang'] = $vote_items[1];
+//            }        
+//        }
+//
+//        
+//        return $resArr;
+//    }
+//    
+//    function getHit($id){
+//        
+//        
+//    return Deal::find($id);
+//    
+//}
 }
+
