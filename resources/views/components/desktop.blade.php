@@ -5,17 +5,22 @@
         
          
         
-        <x-top-menu :currentcategory="$currentcategory" :category="$currentcategory" :active="$active" ></x-top-menu>
+        <x-top-menu :currentcategory="$currentcategory"  :active="$active" ></x-top-menu>
         
         <div class="flex flex-row justify-items-end">
             
             <x-categories :currentcategory="$currentcategory"   class="m-10 p-10"></x-categories>
             
-            @if($mode==='Home' || $mode==='ShowCategory')     
+            @if($mode==='Home' || $mode==='ShowCategory')
             
-                <x-deals :category="$currentcategory">
+                @if($currentcategory != null)
+                
+                    <x-deals :category="$currentcategory">
                     
-                </x-deals>
+                    </x-deals>
+                @endif
+            
+                
             @endif
             @if($mode==='CreateCategory')               
                 <x-form-create-category ></x-form-create-category>
@@ -33,12 +38,19 @@
             
             <x-vote-form :category="$currentcategory"></x-vote-form>
             @endif
-            @if($mode==='EditDeal')   
+            @if($mode==='EditDeal')  
+            
             <x-form-edit-deal ></x-form-edit-deal>
                 
                
             @endif
-            @if($mode='')            
+            @if($mode=='StoreCategory')     
+            <div class="text-3xl m-2 p-2">
+                Категория <i><b class="text-4xl">{{$currentcategory->category}}</b></i> успешно создана
+                </div>
+                
+            @endif
+            @if($mode=='')            
                 
             @endif
             

@@ -79,6 +79,7 @@ class CategoryController extends Controller
             $category = new Category;
             $category->owner_id=$owner_id;
             $category->category=$category_name;
+            $category->deals = '';
             $category->save();
             
             $categories_arr[] = $category->id;
@@ -89,17 +90,18 @@ class CategoryController extends Controller
             
 
 
-                echo  "Категория ".'"'.$request->input('category').'"'." успешно создана ";
+                $msg = "Категория ".'"'.$request->input('category').'"'." успешно создана ";
                 return $category;
         });
        if($category){
           
-           return view('components.supermain',['active'=>'Добавить категорию','mode'=>'StorCategory',
+           return view('components.supermain',['active'=>'Добавить категорию','mode'=>'StoreCategory',
                'currentcategory'=>$category]);
            
        }
        else{
-          return view('home',['active'=>'Главная', 'mode'=>'Home']);
+           
+          return view('components.supermain',['active'=>'Главная', 'mode'=>'Home','currentcategory'=>null]);
        }
         
         
@@ -158,8 +160,8 @@ class CategoryController extends Controller
      */
     public function edit($id)
     {
-        $category = Category::find($id)[0];
-        return view('components.supermain',['currentcategory'=>$category,'active'=> 'Переименовать категорию','mode'=>'EditCategory']);
+        
+        return view('components.supermain',['currentcategory'=>$id,'active'=> 'Переименовать категорию','mode'=>'EditCategory']);
     }
 
     /**
@@ -171,7 +173,9 @@ class CategoryController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $category = Category::find($id)[0];
+        
+        $category = $id;
+        
         $category->category = $request->input('category');
         $category->save();
         return view('components.supermain',['active'=>'Главная','mode'=>'ShowCategory',
