@@ -10,6 +10,8 @@
         <div class="flex flex-row justify-items-end">
             
             <x-categories :currentcategory="$currentcategory"   class="m-10 p-10"></x-categories>
+            <div>
+                <x-msg :msg="$msg" ></x-msg>
             
             @if($mode==='Home' || $mode==='ShowCategory')
             
@@ -53,6 +55,8 @@
             @if($mode=='')            
                 
             @endif
+            </div>
+            
             
             
             

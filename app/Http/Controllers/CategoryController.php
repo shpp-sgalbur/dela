@@ -15,7 +15,7 @@ class CategoryController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index($currentcategory=null, $mode='ShowCategory')
+    public function index($currentcategory=null, $mode='ShowCategory', $msg=null)
     {
         //echo 'CategoryController:index '.$currentcategory.'php';
         $categories = Category::where('owner_id',Auth::id());
@@ -28,7 +28,8 @@ class CategoryController extends Controller
                                 'currentcategory'=>$currentcategory, 
                                 'category'=>$currentcategory,
                                 'active'=>'Главная', 
-                                'mode'=>$mode
+                                'mode'=>$mode,
+                                'msg'=>null
                                 ]);
         }else{
             return view('no_categories');
@@ -42,7 +43,7 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        return view('newCategoryForm',['user_id'=>Auth::id(),'active'=>'Добавить категорию','mode'=>'CreateCategory']);
+        return view('components.supermain',['user_id'=>Auth::id(),'active'=>'Добавить категорию','mode'=>'CreateCategory', 'currentcategory'=>null, 'msg'=>null]);
     }
 
     /**
@@ -96,12 +97,12 @@ class CategoryController extends Controller
        if($category){
           
            return view('components.supermain',['active'=>'Добавить категорию','mode'=>'StoreCategory',
-               'currentcategory'=>$category]);
+               'currentcategory'=>$category, 'msg'=>null]);
            
        }
        else{
-           
-          return view('components.supermain',['active'=>'Главная', 'mode'=>'Home','currentcategory'=>null]);
+           $msg = "Категория $request->category уже существует";
+          return view('components.supermain',['active'=>'Главная', 'mode'=>'Home','currentcategory'=>null, 'msg'=>$msg]);
        }
         
         
@@ -148,7 +149,8 @@ class CategoryController extends Controller
                 [
                     'currentcategory'=>$category,
                     'active'=>"Главная", 
-                    'mode'=>'ShowCategory',  
+                    'mode'=>'ShowCategory',
+                    'msg'=>null  
                 ]);
     }
 
@@ -161,7 +163,7 @@ class CategoryController extends Controller
     public function edit($id)
     {
         
-        return view('components.supermain',['currentcategory'=>$id,'active'=> 'Переименовать категорию','mode'=>'EditCategory']);
+        return view('components.supermain',['currentcategory'=>$id,'active'=> 'Переименовать категорию','mode'=>'EditCategory', 'msg'=>null]);
     }
 
     /**
@@ -179,7 +181,7 @@ class CategoryController extends Controller
         $category->category = $request->input('category');
         $category->save();
         return view('components.supermain',['active'=>'Главная','mode'=>'ShowCategory',
-               'currentcategory'=>$category]);
+               'currentcategory'=>$category, 'msg'=>null]);
     }
 
     /**
@@ -207,11 +209,11 @@ class CategoryController extends Controller
             return false;
         });
         if($res){
-            return redirect()->route('category.index');
+            return redirect()->route('category.index',['msg'=>'']);
         }
         else{
              return view('components.supermain',['active'=>'Главная','mode'=>'ShowCategory',
-               'currentcategory'=>$category]);
+               'currentcategory'=>$category, 'msg'=>null]);
         }
        
     }
