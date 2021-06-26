@@ -6,6 +6,7 @@ use Illuminate\View\Component;
 use App\Models\Deal;
 use App\Models\Category;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 
 class Msg extends Component
 {
@@ -15,20 +16,22 @@ class Msg extends Component
      *выделяет в сообщении $msg строку $value 
      * @return void
      */
-    public function __construct($msg=null, Request $request)
+    public function __construct($msg=null, Request $request, Response $respons)
     {
-        
-        if($msg){
+        //dd($request);
+        //dd($request->deal);
+        if($request->msg){
             if(isset($request->category)){
                 $value = $request->category;
                 
             }
             if(isset($request->deal)){
                 $value = $request->deal;
+               //dd($value);
             }
             $highlightedValue = "<b><i>$value</b></i>";
-            $this->msg = str_replace($value, $highlightedValue, $msg);
-            
+            $this->msg = str_replace($value, $highlightedValue, $request->msg);
+            //dd($this->msg);
         }else{
             $this->msg=null;
         }

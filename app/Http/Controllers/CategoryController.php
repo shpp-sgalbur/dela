@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Category;
 use App\Models\User;
@@ -209,11 +210,13 @@ class CategoryController extends Controller
             return false;
         });
         if($res){
-            return redirect()->route('category.index',['msg'=>'']);
+            $msg = "Категория $category->category была удалена";
+            return redirect()->route('category.index',['msg'=>$msg,'category'=>$category->category]);
         }
         else{
+            $msg = "Что-то пошло не так. Категорию $category удалить не удалось";
              return view('components.supermain',['active'=>'Главная','mode'=>'ShowCategory',
-               'currentcategory'=>$category, 'msg'=>null]);
+               'currentcategory'=>$category, 'msg'=>$msg]);
         }
        
     }

@@ -32,7 +32,7 @@ class DealController extends Controller
     {
         //echo 'controller'.$currentcategory.'deal'; 
         $this->currentcategory=$currentcategory;
-        return view('components.supermain', ['active'=>'Добавить дело', 'mode' =>'createDeal','currentcategory'=>$currentcategory]);
+        return view('components.supermain', ['active'=>'Добавить дело', 'mode' =>'createDeal','currentcategory'=>$currentcategory, 'msg'=>null]);
     }
 
     /**
@@ -114,7 +114,7 @@ class DealController extends Controller
         //dd($category);
         //return view('components.form-edit-deal',['deal'=>$deal,'currentcategory'=>$category]);
         //dd($slot);
-        return view('components.supermain',['active'=>'Редактировать дело','mode'=>'EditDeal', 'currentcategory'=>$category]);
+        return view('components.supermain',['active'=>'Редактировать дело','mode'=>'EditDeal', 'currentcategory'=>$category, 'msg'=>null]);
     }
 
     /**
@@ -134,7 +134,7 @@ class DealController extends Controller
         $category = Category::find($deal->category_id);
         
         return view('components.supermain',['active'=>'Главная','mode'=>'ShowCategory',
-               'currentcategory'=>$category]);
+               'currentcategory'=>$category, 'msg'=>null]);
     }
 
     /**
@@ -145,6 +145,9 @@ class DealController extends Controller
      */
     public function destroy($id, $category)
     {
+        
+        $deal = Deal::find($id)->content;
+        
         $transaction = DB::transaction(function () use($category, $id){
             
             delete_hit($id);
@@ -161,23 +164,26 @@ class DealController extends Controller
             $category->deals = implode(',', $arr_deal_ids);
             
             $category->save();
+            return true;
         });
-        if($transaction){
-                $msg = "Дело успешно удалено";
+        if(isset($transaction)){
+           // dd($transaction);
+                $msg = "Дело $deal успешно удалено";
             }else{
+                //dd($transaction);
                 $msg = "Что-то пошло не так, дело не было удалено";
             }
        
         
         
         
-        return redirect()->route('category.show',['currentcategory'=>$category,'active'=>'Главная','mode'=>'ShowCategory','id'=>$id, 'category'=>$category]);
+        return redirect()->route('category.show',['currentcategory'=>$category,'active'=>'Главная','mode'=>'ShowCategory','id'=>$id, 'category'=>$category, 'msg'=>$msg,'deal'=>$deal]);
     }
     
     public function voteCreate(\App\Models\Category $category) {
         
        
-        return view('components.supermain',['active'=>'Расставить приоритеты','mode'=>'Vote','currentcategory'=>$category]);
+        return view('components.supermain',['active'=>'Расставить приоритеты','mode'=>'Vote','currentcategory'=>$category, 'msg'=>null]);
     }
     
     public function voteStore( \App\Models\Category $category, Deal $winDeal, Deal $loserDeal){
@@ -211,7 +217,7 @@ class DealController extends Controller
         });
         session()->push("votes_arr.$winDeal->category_id",$winDeal->id.'-'.$loserDeal->id);
         dump(session('votes_arr'));
-        return view('components.supermain',['active'=>'Расставить приоритеты','mode'=>'Vote','currentcategory'=>$category]);
+        return view('components.supermain',['active'=>'Расставить приоритеты','mode'=>'Vote','currentcategory'=>$category, 'msg'=>null]);
         
         
     }
