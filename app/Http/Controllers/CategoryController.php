@@ -71,7 +71,7 @@ class CategoryController extends Controller
                     
                     if( $category_name == $cat->category){
                         echo "Категория ".'"'.$category_name.'"'." уже существует ";
-                        return false;
+                        return "double";
                         break;
                     }
                 }
@@ -95,7 +95,7 @@ class CategoryController extends Controller
                 //$msg = "Категория ".'"'.$request->input('category').'"'." успешно создана ";
                 return $category;
         });
-       if($category){
+       if($category && $category!=='double'){
            $request->session()->flash('category',$category->category);
             $msg = "Категория ". $request->input('category')."  успешно создана ";
             
@@ -104,11 +104,13 @@ class CategoryController extends Controller
        }
        else{
            $request->session()->flash('category',$request->category);
-           $msg = "Категория $request->category уже существует";
-           $category= Category::firstWhere('category',$request->category);
-           //dd($category);
-           
-         // return view('components.supermain',['active'=>'Главная', 'mode'=>'Home','currentcategory'=>null, 'msg'=>$msg]);
+           if($category==='double'){
+                $msg = "Категория $request->category уже существует";
+                $category= Category::firstWhere('category',$request->category);
+           }
+           else{
+               $msg = "Что то пошло не так";
+           }
        }
         return redirect()->route('category.show',['category'=>$category,'msg'=>$msg]);
         
