@@ -10,14 +10,17 @@ class Desktop extends Component
 {
     public $mode;
     public $currentcategory;
+    public $category;
+    
     public $active ;
+    public $msg;
     public $slot;
     /**
      * Create a new component instance.
      *
      * @return void
      */
-    public function __construct( $active ='Главная',$mode = "Home", $currentcategory=null)
+    public function __construct( $active ='Главная',$mode = "Home", $currentcategory=null, $category=null, $msg=null)
     {
         
         $this->active=$active;
@@ -55,6 +58,9 @@ class Desktop extends Component
             $this->currentcategory = Category::where('owner_id',Auth::id())->first();
         }
        // echo 'desktop'.$this->currentcategory.'php';
+       $this->category;
+       $this->msg=$msg;
+       
         
        
         

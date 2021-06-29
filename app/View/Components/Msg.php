@@ -18,20 +18,23 @@ class Msg extends Component
      */
     public function __construct($msg=null, Request $request, Response $respons)
     {
-        //dd($request);
-        //dd($request->deal);
+        
+//        dump($request->session());
+    // dump(session('deal'));
+//        dd($respons);
+        //dump($request);
         if($request->msg){
-            if(isset($request->category)){
-                $value = $request->category;
+            if(session('category')!==null){
+                $value = session('category');
                 
             }
-            if(isset($request->deal)){
-                $value = $request->deal;
+            if(session('deal')!==null){
+                $value = session('deal');
                //dd($value);
             }
-            $highlightedValue = "<b><i>$value</b></i>";
+            $highlightedValue = "<i><b class='text-4xl'>$value</i></b>";
             $this->msg = str_replace($value, $highlightedValue, $request->msg);
-            //dd($this->msg);
+           // dd($this->msg);
         }else{
             $this->msg=null;
         }

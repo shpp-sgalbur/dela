@@ -92,20 +92,25 @@ class CategoryController extends Controller
             
 
 
-                $msg = "Категория ".'"'.$request->input('category').'"'." успешно создана ";
+                //$msg = "Категория ".'"'.$request->input('category').'"'." успешно создана ";
                 return $category;
         });
        if($category){
-          
-           return view('components.supermain',['active'=>'Добавить категорию','mode'=>'StoreCategory',
-               'currentcategory'=>$category, 'msg'=>null]);
+           $request->session()->flash('category',$category->category);
+            $msg = "Категория ". $request->input('category')."  успешно создана ";
+            
+           // return view('components.supermain',['active'=>'Добавить категорию','mode'=>'StoreCategory','currentcategory'=>$category, 'msg'=>$msg]);
            
        }
        else{
+           $request->session()->flash('category',$request->category);
            $msg = "Категория $request->category уже существует";
-          return view('components.supermain',['active'=>'Главная', 'mode'=>'Home','currentcategory'=>null, 'msg'=>$msg]);
+           $category= Category::firstWhere('category',$request->category);
+           //dd($category);
+           
+         // return view('components.supermain',['active'=>'Главная', 'mode'=>'Home','currentcategory'=>null, 'msg'=>$msg]);
        }
-        
+        return redirect()->route('category.show',['category'=>$category,'msg'=>$msg]);
         
         
     }
@@ -191,8 +196,9 @@ class CategoryController extends Controller
      * @param  int  $category
      * @return \Illuminate\Http\Response
      */
-    public function destroy($category)
+    public function destroy(Request $request, $category)
     {
+        $request->session()->flash('category',$category->category);
         //
         $res=DB::transaction(function () use ($category){
             $user = User::find(Auth::id());
@@ -211,7 +217,8 @@ class CategoryController extends Controller
         });
         if($res){
             $msg = "Категория $category->category была удалена";
-            return redirect()->route('category.index',['msg'=>$msg,'category'=>$category->category]);
+            
+            return redirect()->route('category.index',['msg'=>$msg]);
         }
         else{
             $msg = "Что-то пошло не так. Категорию $category удалить не удалось";

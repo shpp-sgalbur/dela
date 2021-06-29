@@ -45,6 +45,7 @@ class DealController extends Controller
     {
         $deal = new Deal;
         $deal->content = $request->input('deal');
+        $request->session()->flash('deal',$deal->content);
         if($deal->content !=''){        
             $strUrl = getUrlFromStr($deal->content);
            
@@ -75,13 +76,14 @@ class DealController extends Controller
                 $category->deals = implode(',', $arr_deal_ids);
                 
                 $category->save();
+                return true;
             });
             if($transaction){
-                $msg = "Дело успешно добаавлено";
+                $msg = "Дело $deal->content успешно добаавлено";
             }else{
                 $msg = "Что-то пошло не так";
             }
-
+            return redirect()->route('category.show',['category'=>$category,'msg'=>$msg]);
             
             return view('components.supermain',['currentcategory'=>$category,'active'=>'Добавить дело','mode'=>'ShowCategory','msg'=>$msg]);
         }
@@ -143,10 +145,12 @@ class DealController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id, $category)
+    public function destroy(Request $request, $id, $category)
     {
-        
+       
         $deal = Deal::find($id)->content;
+        //dd($deal);
+        $request->session()->flash('deal',$deal);
         
         $transaction = DB::transaction(function () use($category, $id){
             
@@ -169,15 +173,24 @@ class DealController extends Controller
         if(isset($transaction)){
            // dd($transaction);
                 $msg = "Дело $deal успешно удалено";
+               //dd($msg);
             }else{
                 //dd($transaction);
                 $msg = "Что-то пошло не так, дело не было удалено";
             }
        
+        return redirect()->route('category.show',['category'=>$category,'msg'=>$msg]);
         
         
-        
-        return redirect()->route('category.show',['currentcategory'=>$category,'active'=>'Главная','mode'=>'ShowCategory','id'=>$id, 'category'=>$category, 'msg'=>$msg,'deal'=>$deal]);
+//        return view('components.supermain',[
+//            'currentcategory'=>$category,
+//            'active'=>'Главная',
+//            'mode'=>'ShowCategory',
+//            'id'=>$id, 
+//            'category'=>$category, 
+//            'msg'=>$msg,
+//            
+//        ]);
     }
     
     public function voteCreate(\App\Models\Category $category) {

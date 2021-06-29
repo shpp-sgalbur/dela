@@ -11,7 +11,8 @@
             
             <x-categories :currentcategory="$currentcategory"   class="m-10 p-10"></x-categories>
             <div>
-                <x-msg :msg="$msg" ></x-msg>
+                
+                <x-msg :msg="$msg" :category="$category"></x-msg>
             
             @if($mode==='Home' || $mode==='ShowCategory')
             

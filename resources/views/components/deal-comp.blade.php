@@ -1,8 +1,8 @@
 <div class="w-auto m-2 order-solid border-2 border-green-500 bg-green-50">
-    {{$deal->content}}
+    {!!$deal->content!!}
     <div class ="flex flex-row   px-2 " >
-        <div class="border-2 border-green-500 border-solid ml-3 p-1  bg-green-200 h-8 "><span>Рейтинг:&nbsp;{{$deal->rating}}</span></div>
-        <div class="border-2 border-green-500 border-solid ml-3 p-1  bg-green-200 h-8 ">Сравнений:&nbsp;{{$deal->votes}}</div>
+        <div class="border-2 border-green-500 border-solid ml-3 p-1  bg-green-200 h-8 text-green-800"><span>Рейтинг:&nbsp;{{$deal->rating}}</span></div>
+        <div class="border-2 border-green-500 border-solid ml-3 p-1  bg-green-200 h-8 text-green-800">Сравнений:&nbsp;{{$deal->votes}}</div>
         <div class="flex justify-end w-full ">
             <div class ="border-2 border-green-500 border-solid ml-3 p-1 rounded-lg bg-green-200 h-8 w-8">
                 <a href="{{route('deal.edit',['category'=>$category, 'id'=>$deal->id, 'deal'=>$deal])}} ">
