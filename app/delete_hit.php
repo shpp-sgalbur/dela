@@ -754,11 +754,13 @@ function getReting($history_id, $del_id){
  * 
  */
 function getHistory($id){
-    $hit = getHit($id);  
+    $hit = getHit($id); 
+    $hist=$hit->history;
+    
     
     
     $resArr = NULL;
-    if($hit->history !=''){
+    if($hist !=''){
         $votes = explode(',', $hit->history);
         foreach ($votes as $pos => $vote) {
             $vote_items = explode(':', $vote);  
