@@ -153,6 +153,13 @@ class CategoryController extends Controller
         //$category = $id;
         //echo 'CategoryController.Show '.$category;
         //dd($category);
+         return view('components.supermain',
+                [
+                    'currentcategory'=>$category,
+                    'active'=>"Главная", 
+                    'mode'=>'ShowCategory',
+                    'msg'=>null  
+                ]);
         return redirect()->route('deal.index',['category'=>$category->id]);
         
     }
