@@ -20,6 +20,8 @@
     @endforeach
     
     <!-- Happiness is not something readymade. It comes from your own actions. - Dalai Lama -->
-    {{ $categories->links()}}
+    {{ $categories->setPageName('categoryPage')}}
+   
+    
     
 </div>

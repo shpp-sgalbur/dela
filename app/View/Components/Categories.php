@@ -22,7 +22,7 @@ class Categories extends Component
         $allcategories=Category::where('owner_id',Auth::id());
         //$this->categories= Category::all();
         
-        $this->categories=$allcategories->paginate(3);
+        $this->categories=$allcategories->paginate(3,['*'],'categoryPage')->withQueryString();
         
         //$this->categories=$this->categories->get();
         if($currentcategory==null){

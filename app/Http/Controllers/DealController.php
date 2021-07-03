@@ -18,9 +18,19 @@ class DealController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         //
+        
+        $category = Category::find($request->category);
+        //
+        return view('components.supermain',
+                [
+                    'currentcategory'=>$category,
+                    'active'=>"Главная", 
+                    'mode'=>'ShowCategory',
+                    'msg'=>null  
+                ]);
     }
 
     /**

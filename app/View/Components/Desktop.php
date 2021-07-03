@@ -22,7 +22,7 @@ class Desktop extends Component
      */
     public function __construct( $active ='Главная',$mode = "Home", $currentcategory=null, $category=null, $msg=null)
     {
-        
+       
         $this->active=$active;
         $this->mode=$mode;
 //        switch ($mode){
@@ -58,7 +58,7 @@ class Desktop extends Component
             $this->currentcategory = Category::where('owner_id',Auth::id())->first();
         }
        // echo 'desktop'.$this->currentcategory.'php';
-       $this->category;
+       $this->category=$category;
        $this->msg=$msg;
        
         
