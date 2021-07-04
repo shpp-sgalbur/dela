@@ -31,4 +31,5 @@ Route::delete('deal/{id}/categories/{category}/delete',[\App\Http\Controllers\De
 //Route::post('user/{id}/create/store',[\App\Http\Controllers\CategoryController::class,'store'])->name('createCategory');
 Route::get('/vote/form/category/{category}',[\App\Http\Controllers\DealController::class,'voteCreate'])->name('voteCreate')->middleware('auth');
 Route::post('/vote/store/category/{category}/{winDeal}-{loserDeal}', [\App\Http\Controllers\DealController::class,'voteStore'])->name('voteStore')->middleware('auth');
+Route::get('/vote/store/category/{category}/{winDeal}-{loserDeal}', [\App\Http\Controllers\DealController::class,'voteStore'])->name('voteStore')->middleware('auth');
 require __DIR__.'/auth.php';
