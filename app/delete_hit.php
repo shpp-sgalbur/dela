@@ -755,13 +755,15 @@ function getReting($history_id, $del_id){
  */
 function getHistory($id){
     $hit = getHit($id); 
-    $hist=$hit->history;
+    $hist = optional($hit)->history;
+    //dd($hist);
+    
     
     
     
     $resArr = NULL;
     if($hist !=''){
-        $votes = explode(',', $hit->history);
+        $votes = explode(',', $hist);
         foreach ($votes as $pos => $vote) {
             $vote_items = explode(':', $vote);  
             $resArr[$pos]['pare_id'] = $vote_items[0];
