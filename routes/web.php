@@ -32,4 +32,9 @@ Route::delete('deal/{id}/categories/{category}/delete',[\App\Http\Controllers\De
 Route::get('/vote/form/category/{category}',[\App\Http\Controllers\DealController::class,'voteCreate'])->name('voteCreate')->middleware('auth');
 Route::post('/vote/store/category/{category}/{winDeal}-{loserDeal}', [\App\Http\Controllers\DealController::class,'voteStore'])->name('voteStore')->middleware('auth');
 Route::get('/vote/store/category/{category}/{winDeal}-{loserDeal}', [\App\Http\Controllers\DealController::class,'voteStore'])->name('voteStore')->middleware('auth');
+Route::get('find/{category}', function($category){
+    return view('components.supermain',['currentcategory'=>$category,'active'=>'Поиск','mode'=>'Find','msg'=>'']);
+}
+    )->name('find')->middleware('auth');
+
 require __DIR__.'/auth.php';

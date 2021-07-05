@@ -53,8 +53,8 @@
                 </div>
                 
             @endif
-            @if($mode=='')            
-                
+            @if($mode=='Find')            
+                find Form will be here!!
             @endif
             </div>
             
