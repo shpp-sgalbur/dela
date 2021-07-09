@@ -18,9 +18,19 @@ class DealController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    public function index(Request $request, $msg=null)
     {
-        
+       
+        //dd($request);
+        $category = Category::find($request->category);
+        //
+        return view('components.supermain',
+                [
+                    'currentcategory'=>$category,
+                    'active'=>"Главная", 
+                    'mode'=>'ShowCategory',
+                    'msg'=>$msg  
+                ]);
     }
 
     /**
@@ -45,7 +55,7 @@ class DealController extends Controller
     {
         $deal = new Deal;
         $deal->content = $request->input('deal');
-        $request->session()->flash('deal',$deal->content);
+        $request->session()->reflash('deal',$deal->content);
         if($deal->content !=''){        
             $strUrl = getUrlFromStr($deal->content);
            
@@ -83,10 +93,14 @@ class DealController extends Controller
             }else{
                 $msg = "Что-то пошло не так";
             }
+            session(['deal' => $deal->content]);
             return redirect()->route('category.show',['category'=>$category,'msg'=>$msg]);
             
             return view('components.supermain',['currentcategory'=>$category,'active'=>'Добавить дело','mode'=>'ShowCategory','msg'=>$msg]);
         }
+        
+    }
+    public function showFindForm(){
         
     }
 
@@ -150,7 +164,7 @@ class DealController extends Controller
        
         $deal = Deal::find($id)->content;
         //dd($deal);
-        $request->session()->flash('deal',$deal);
+        $request->session()->reflash('deal',$deal);
         
         $transaction = DB::transaction(function () use($category, $id){
             
@@ -173,11 +187,12 @@ class DealController extends Controller
         if(isset($transaction)){
            // dd($transaction);
                 $msg = "Дело $deal успешно удалено";
-               //dd($msg);
+               
             }else{
                 //dd($transaction);
                 $msg = "Что-то пошло не так, дело не было удалено";
             }
+            session(['deal' => $deal]);
        
         return redirect()->route('category.show',['category'=>$category,'msg'=>$msg]);
         

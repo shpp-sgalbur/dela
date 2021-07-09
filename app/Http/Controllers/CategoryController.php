@@ -18,6 +18,7 @@ class CategoryController extends Controller
      */
     public function index($currentcategory=null, $mode='ShowCategory', $msg=null)
     {
+        
         //echo 'CategoryController:index '.$currentcategory.'php';
         $categories = Category::where('owner_id',Auth::id());
         
@@ -30,7 +31,7 @@ class CategoryController extends Controller
                                 'category'=>$currentcategory,
                                 'active'=>'Главная', 
                                 'mode'=>$mode,
-                                'msg'=>null
+                                'msg'=>$msg
                                 ]);
         }else{
             return view('no_categories');
@@ -96,7 +97,10 @@ class CategoryController extends Controller
                 return $category;
         });
        if($category && $category!=='double'){
+           
            $request->session()->flash('category',$category->category);
+           session(['category'=>$category->category]);
+           
             $msg = "Категория ". $request->input('category')."  успешно создана ";
             
            // return view('components.supermain',['active'=>'Добавить категорию','mode'=>'StoreCategory','currentcategory'=>$category, 'msg'=>$msg]);
@@ -112,6 +116,7 @@ class CategoryController extends Controller
                $msg = "Что то пошло не так";
            }
        }
+       session(['msg'=>$msg]);
         return redirect()->route('category.show',['category'=>$category,'msg'=>$msg]);
         
         
@@ -123,10 +128,9 @@ class CategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show( Request $request, $category=null)
+    public function show( Request $request, $category=null, $msg=null)
     {
-//        echo 'public function show';
-//        dd($category);
+        //dd($request);
         //dump($request->session()->get('attributes'));
         //if(!isset($countvote)) $countvote=[];
         //$countvote = $request->session()->get("countvote[$category->id]");
@@ -153,14 +157,11 @@ class CategoryController extends Controller
         //$category = $id;
         //echo 'CategoryController.Show '.$category;
         //dd($category);
-         return view('components.supermain',
-                [
-                    'currentcategory'=>$category,
-                    'active'=>"Главная", 
-                    'mode'=>'ShowCategory',
-                    'msg'=>null  
-                ]);
-        return redirect()->route('deal.index',['category'=>$category->id]);
+        $msg=$request->msg?$request->msg:null;
+        $request->session()->put('category', $category->category);
+        $request->session()->flash('category', $category->category);
+        session(['category'=> $category->category]);
+        return redirect()->route('deal.index',['category'=>$category->id, 'msg'=>$msg]);
         
     }
 
@@ -202,8 +203,8 @@ class CategoryController extends Controller
      */
     public function destroy(Request $request, $category)
     {
-        $request->session()->flash('category',$category->category);
-        //
+        $request->session()->reflash('category',$category->category);
+        session(['category'=>$category->category]);
         $res=DB::transaction(function () use ($category){
             $user = User::find(Auth::id());
             $categories_arr = explode(';', $user->categories);

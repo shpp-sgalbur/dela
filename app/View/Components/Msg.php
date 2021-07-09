@@ -22,22 +22,30 @@ class Msg extends Component
 //        dump($request->session());
     // dump(session('deal'));
 //        dd($respons);
-        //dump($request);
-        if($request->msg){
-            if(session('category')!==null){
+        //dd($request);
+        if($request->msg != null){
+            //dd($request->msg);
+            
+            if(session('category')!==null || session('deal')!==null){
+                if(session('category')!==null){
                 $value = session('category');
+                $request->session()->forget('category');
                 
             }
             if(session('deal')!==null){
                 $value = session('deal');
+                $request->session()->forget('deal');
                //dd($value);
             }
-            $highlightedValue = "<i><b class='text-4xl'>$value</i></b>";
-            $this->msg = str_replace($value, $highlightedValue, $request->msg);
+                $highlightedValue = "<i><b class='text-4xl'>$value</i></b>";
+                $this->msg = str_replace($value, $highlightedValue, $request->msg);
+            }
+            
            // dd($this->msg);
         }else{
             $this->msg=null;
         }
+        
         
         
     }
