@@ -13,6 +13,7 @@
             <div>
                 
                 <x-msg :msg="$msg" :category="$category"></x-msg>
+                
             
             @if($mode==='Home' || $mode==='ShowCategory')
             
@@ -54,7 +55,10 @@
                 
             @endif
             @if($mode=='Find')            
-                find Form will be here!!
+            <x-find-form :category="$currentcategory"></x-find-form>
+            @endif
+            @if($mode=='Found')            
+            <x-res-find :category="$currentcategory"></x-find-form>
             @endif
             </div>
             
