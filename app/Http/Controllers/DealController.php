@@ -211,13 +211,18 @@ class DealController extends Controller
 //        ]);
     }
     
-    public function voteCreate(\App\Models\Category $category) {
+    public function voteCreate(\App\Models\Category $category, Request $request) {
+        
+        $msg = $request->msg;
+        $mode = $request->mode;
+        if($mode==null) $mode = 'Vote';
         
        
-        return view('components.supermain',['active'=>'Расставить приоритеты','mode'=>'Vote','currentcategory'=>$category, 'msg'=>null]);
+        return view('components.supermain',['active'=>'Расставить приоритеты','mode'=>$mode,'currentcategory'=>$category, 'msg'=>$msg]);
     }
     
-    public function voteStore( \App\Models\Category $category, Deal $winDeal, Deal $loserDeal){
+    public function voteStore( \App\Models\Category $category, Deal $winDeal, Deal $loserDeal, Request $request){
+        
         DB::transaction(function () use ($winDeal, $loserDeal){
             
             $a=$winDeal->rating;
@@ -247,8 +252,14 @@ class DealController extends Controller
             
         });
         session()->push("votes_arr.$winDeal->category_id",$winDeal->id.'-'.$loserDeal->id);
-        dump(session('votes_arr'));
-        return view('components.supermain',['active'=>'Расставить приоритеты','mode'=>'Vote','currentcategory'=>$category, 'msg'=>null]);
+//        $n=session('countvote')[0]-1;
+//        session(['countvote'=>$n]);
+        session(["countvote.$category->id.0"=>session("countvote.$category->id.0")-1]);
+        
+        dump(session("countvote.$category->id.0"));
+        $mode = $request->mode;
+        //dd($mode);
+        return view('components.supermain',['active'=>'Расставить приоритеты','mode'=>"$mode",'currentcategory'=>$category, 'msg'=>null]);
         
         
     }

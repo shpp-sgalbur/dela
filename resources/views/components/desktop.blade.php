@@ -33,14 +33,15 @@
             <x-form-edit-category :currentcategory="$currentcategory" :mode="$mode"> </x-form-edit-category>
                 
             @endif
+            
             @if($mode==='createDeal')            
                 <x-creat-deal-form :currentcategory="$currentcategory">
    
                 </x-creat-deal-form>
             @endif
-            @if($mode=='Vote')    
-            
-            <x-vote-form :category="$currentcategory"></x-vote-form>
+            @if($mode=='Vote' || $mode=='preCreateDeal')    
+            {{$mode}}
+            <x-vote-form :category="$currentcategory" :msg="$msg" :mode="$mode"></x-vote-form>
             @endif
             @if($mode==='EditDeal')  
             

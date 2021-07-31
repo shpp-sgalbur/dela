@@ -14,7 +14,7 @@ class TopMenu extends Desktop
         'Добавить категорию'=>'category.create',
         'Переименовать категорию'=>'category.edit',
         'Добавить дело'=>'createDeal',
-        'Поиск'=>'find',
+        'Поиск'=>'findForm',
         'О сайте'=>'home',
         'Помощь'=>'home',
         'Мнения и пожелания'=>'home'

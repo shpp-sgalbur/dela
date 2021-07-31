@@ -5,7 +5,8 @@
             :active="$active" 
             :category="$currentcategory" 
             :currentcategory="$currentcategory" 
-            :mode="$mode" :msg="$msg"
+            :mode="$mode" 
+            :msg="$msg"
             > 
 
             $slot

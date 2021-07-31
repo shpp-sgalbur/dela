@@ -130,7 +130,7 @@ class CategoryController extends Controller
      */
     public function show( Request $request, $category=null, $msg=null)
     {
-        //dd($request);
+        
         //dump($request->session()->get('attributes'));
         //if(!isset($countvote)) $countvote=[];
         //$countvote = $request->session()->get("countvote[$category->id]");
@@ -141,7 +141,7 @@ class CategoryController extends Controller
                 $request->session()->forget("countvote");
                 $request->session()->push("countvote.$category->id", 3);
             }
-            
+        
            dump (array_keys($arr,$category->id));
             //
                 echo '$request->session()->forget(name);';
