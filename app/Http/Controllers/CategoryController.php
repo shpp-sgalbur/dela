@@ -136,10 +136,12 @@ class CategoryController extends Controller
         //$countvote = $request->session()->get("countvote[$category->id]");
         if($request->session()->has("countvote")){
             $arr = $request->session()->get("countvote");
-            //dump($arr);
-            if(!array_keys($arr,$category->id)){
+            //dd($arr);
+            if(!array_key_exists($category->id,$arr)){
+                //dd($arr);
                 $request->session()->forget("countvote");
                 $request->session()->push("countvote.$category->id", 3);
+                
             }
         
            //dump (array_keys($arr,$category->id));
