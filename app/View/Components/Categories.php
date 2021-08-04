@@ -26,7 +26,7 @@ class Categories extends Component
         
         if($this->wasClickPaginator($request)){
             $this->categoryPage = $request->categoryPage;
-            dump($this->categoryPage);
+            
         }else{
             $this->categoryPage = session('categoryPage');
         }
@@ -59,7 +59,5 @@ class Categories extends Component
        
         return strstr($request->fullUrl(), 'categoryPage');
     }
-    private function getCategoryPage(Request $request) {
-        
-    }
+
 }
