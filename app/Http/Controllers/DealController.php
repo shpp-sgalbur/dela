@@ -91,7 +91,7 @@ class DealController extends Controller
                 return true;
             });
             if($transaction){
-                $msg = "Дело $deal->content успешно добаавлено";
+                $msg = "Дело $deal->content успешно добавлено";
             }else{
                 $msg = "Что-то пошло не так";
             }
