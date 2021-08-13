@@ -41,14 +41,18 @@ class TopMenu extends Desktop
             //$this->menu['Переименовать категорию'] = 'category.edit';
         }else{
             $this->currentcategory= Category::where('owner_id',Auth::id())->first();
-            
+            //
                         
         }
         if($this->currentcategory == null){
+            
                 unset($this->menu['Главная']);
                 unset($this->menu['Переименовать категорию']);
                 unset($this->menu['Добавить дело']);
                 unset($this->menu['Расставить приоритеты']);
+                unset($this->menu['Поиск']);
+                
+                
             }
         //dd($this->menu);
         
