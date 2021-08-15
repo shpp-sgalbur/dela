@@ -256,7 +256,7 @@ class DealController extends Controller
 //        session(['countvote'=>$n]);
         session(["countvote.$category->id.0"=>session("countvote.$category->id.0")-1]);
         
-        dump(session("countvote.$category->id.0"));
+        //dump(session("countvote.$category->id.0"));
         $mode = $request->mode;
         //dd($mode);
         return view('components.supermain',['active'=>'Расставить приоритеты','mode'=>"$mode",'currentcategory'=>$category, 'msg'=>null]);
