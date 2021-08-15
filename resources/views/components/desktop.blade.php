@@ -40,7 +40,7 @@
                 </x-creat-deal-form>
             @endif
             @if($mode=='Vote' || $mode=='preCreateDeal')    
-            {{$mode}}
+            
             <x-vote-form :category="$currentcategory" :msg="$msg" :mode="$mode"></x-vote-form>
             @endif
             @if($mode==='EditDeal')  
