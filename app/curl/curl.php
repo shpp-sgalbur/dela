@@ -83,7 +83,9 @@ function  getTitle ($htmlPage){
         $endTitle =  stripos($htmlPage, "<",$startTitle);
         $title = substr($htmlPage, $startTitle,$endTitle-$startTitle);
         $charset = getCharset($htmlPage);
-        $title = iconv($charset,'UTF-8', $title);
+        
+        $title_after_convert = @iconv($charset,"utf-8", $title);
+        if($title_after_convert) $title = $title_after_convert;
     }
 
     return $title;
@@ -98,7 +100,9 @@ function titleAsLink($strUrl){
 
 function getCharset($htmlPage){
     $charset ='ASCII';//кодировка по умолчанию
+    
     if (strlen($htmlPage)){
+        
         //находим вхождение строки charset
         if(stripos($htmlPage, 'charset')){
             $pos = stripos($htmlPage, 'charset') + strlen('charset') + 1;
