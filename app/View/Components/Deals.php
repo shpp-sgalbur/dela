@@ -30,7 +30,7 @@ class Deals extends Component
          
                 $this->category = $category;
                 //dd($this->category->id);
-                $this->deals = Deal::where('category_id', $this->category->id)->orderBy('rating','desc')->paginate(4,['*'],'dealPage')->withQueryString();
+                $this->deals = Deal::where('category_id', $this->category->id)->orderBy('rating','desc')->paginate(10,['*'],'dealPage')->withQueryString();
         }
         
        
