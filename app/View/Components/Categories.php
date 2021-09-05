@@ -31,7 +31,7 @@ class Categories extends Component
             $this->categoryPage = session('categoryPage');
         }
         
-        $this->categories=$allcategories->paginate(3,['*'],'categoryPage',$this->categoryPage)->withQueryString();
+        $this->categories=$allcategories->paginate(10,['*'],'categoryPage',$this->categoryPage)->withQueryString();
         
         //$this->categories=$this->categories->get();
         if($currentcategory==null){
