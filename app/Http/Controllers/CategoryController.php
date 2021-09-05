@@ -205,6 +205,8 @@ class CategoryController extends Controller
      */
     public function destroy(Request $request, $category)
     {
+        
+        
         $request->session()->reflash('category',$category->category);
         session(['category'=>$category->category]);
         $res=DB::transaction(function () use ($category){
@@ -215,6 +217,9 @@ class CategoryController extends Controller
                     unset($categories_arr[$key]);
                     $user->categories = implode(';', $categories_arr);
                     $user->save();
+                    $ids_deals = $category->deals;
+                    $ids_deals_arr = explode(',', $ids_deals);
+                    \App\Models\Deal::destroy($ids_deals_arr);
                     $category->delete();
                     return true;
                     break;
@@ -233,6 +238,28 @@ class CategoryController extends Controller
                'currentcategory'=>$category, 'msg'=>$msg]);
         }
        
+    }
+    
+    public function proveDel($category) {
+        
+        if($category->deals == ''){
+            return redirect()->route('category.destroy',['category'=>$category]);
+        }
+        else{
+            
+            return view('proveDelCat',['category'=>$category]);
+        }
+    }
+    
+    public function isEmpty($category) {
+        
+        if($category->deals == ''){
+            return true;
+        }
+        else{
+            return false;
+        }
+        
     }
     
 }
