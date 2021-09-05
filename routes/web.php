@@ -36,5 +36,6 @@ Route::get('find/{category}', function($category){
     return view('components.supermain',['currentcategory'=>$category,'active'=>'Поиск','mode'=>'Find','msg'=>'']);
 })->name('findForm')->middleware('auth');
 Route::post('found/{category}', [\App\Http\Controllers\DealController::class,'find'])->name('find')->middleware('auth');
+Route::get('delete/{category}', [\App\Http\Controllers\CategoryController::class,'proveDel'])->name('proveDel')->middleware('auth');
 
 require __DIR__.'/auth.php';

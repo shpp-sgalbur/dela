@@ -20,11 +20,11 @@
 
                 </a>
             </div>
-            <form method="post" > 
+            <form  > 
                 
-                @method('DELETE')
+                
                 @csrf
-                <button formaction="{{route('category.destroy',['category'=>$category])}}" class ="cursor-pointer border-2 border-green-500 border-solid  p-1 rounded-lg bg-red-300  h-8 w-8">
+                <button formaction="{{route('proveDel',['category'=>$category])}}" class ="cursor-pointer border-2 border-green-500 border-solid  p-1 rounded-lg bg-red-300  h-8 w-8">
 
                     <svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                         <title>Удалить</title>
