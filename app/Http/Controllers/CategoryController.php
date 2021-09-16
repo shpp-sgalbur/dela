@@ -31,6 +31,7 @@ class CategoryController extends Controller
                                 'category'=>$currentcategory,
                                 'active'=>'Главная', 
                                 'mode'=>$mode,
+                                'deal'=>null,
                                 'msg'=>$msg
                                 ]);
         }else{
@@ -45,7 +46,7 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        return view('components.supermain',['user_id'=>Auth::id(),'active'=>'Добавить категорию','mode'=>'CreateCategory', 'currentcategory'=>null, 'msg'=>null]);
+        return view('components.supermain',['user_id'=>Auth::id(),'active'=>'Добавить категорию','mode'=>'CreateCategory', 'currentcategory'=>null, 'deal'=>null, 'msg'=>null]);
     }
 
     /**
@@ -163,7 +164,7 @@ class CategoryController extends Controller
         $request->session()->put('category', $category->category);
         $request->session()->flash('category', $category->category);
         session(['category'=> $category->category]);
-        return redirect()->route('deal.index',['category'=>$category->id, 'msg'=>$msg]);
+        return redirect()->route('deal.index',['category'=>$category->id, 'deal'=>null, 'msg'=>$msg]);
         
     }
 
@@ -176,7 +177,7 @@ class CategoryController extends Controller
     public function edit($id)
     {
         
-        return view('components.supermain',['currentcategory'=>$id,'active'=> 'Переименовать категорию','mode'=>'EditCategory', 'msg'=>null]);
+        return view('components.supermain',['currentcategory'=>$id,'active'=> 'Переименовать категорию','mode'=>'EditCategory', 'deal'=>null, 'msg'=>null]);
     }
 
     /**
@@ -194,7 +195,7 @@ class CategoryController extends Controller
         $category->category = $request->input('category');
         $category->save();
         return view('components.supermain',['active'=>'Главная','mode'=>'ShowCategory',
-               'currentcategory'=>$category, 'msg'=>null]);
+               'currentcategory'=>$category, 'deal'=>null, 'msg'=>null]);
     }
 
     /**
@@ -235,7 +236,7 @@ class CategoryController extends Controller
         else{
             $msg = "Что-то пошло не так. Категорию $category удалить не удалось";
              return view('components.supermain',['active'=>'Главная','mode'=>'ShowCategory',
-               'currentcategory'=>$category, 'msg'=>$msg]);
+               'currentcategory'=>$category, 'deal'=>null, 'msg'=>$msg]);
         }
        
     }
@@ -251,15 +252,6 @@ class CategoryController extends Controller
         }
     }
     
-    public function isEmpty($category) {
-        
-        if($category->deals == ''){
-            return true;
-        }
-        else{
-            return false;
-        }
-        
-    }
+
     
 }

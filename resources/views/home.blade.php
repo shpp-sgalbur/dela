@@ -1,4 +1,4 @@
-<x-supermain :active="$active" :mode="$mode" :currentcategory="null" :msg="null">
+<x-supermain :active="$active" :mode="$mode" :currentcategory="null" :deal="null" :msg="null">
     @auth
         
     @endauth

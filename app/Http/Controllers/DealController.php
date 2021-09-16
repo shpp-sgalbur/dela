@@ -31,6 +31,7 @@ class DealController extends Controller
                     'currentcategory'=>$category,
                     'active'=>"Главная", 
                     'mode'=>'ShowCategory',
+                    'deal'=>null,
                     'msg'=>$msg  
                 ]);
     }
@@ -44,7 +45,7 @@ class DealController extends Controller
     {
         //echo 'controller'.$currentcategory.'deal'; 
         $this->currentcategory=$currentcategory;
-        return view('components.supermain', ['active'=>'Добавить дело', 'mode' =>'createDeal','currentcategory'=>$currentcategory, 'msg'=>null]);
+        return view('components.supermain', ['active'=>'Добавить дело', 'mode' =>'createDeal','currentcategory'=>$currentcategory, 'deal'=>null, 'msg'=>null]);
     }
 
     /**
@@ -70,8 +71,7 @@ class DealController extends Controller
                 }else{
                     $deal->content = str_replace($strUrl, "<a href ='$strUrl'>$strUrl</a>"  , $deal->content);
                 }
-
-
+                
             }
             $deal->votes = 0;
             $deal->rating=500;
@@ -84,6 +84,8 @@ class DealController extends Controller
                 
                 $arr_deal_ids = explode(',', $category->deals);
                 $deal->save(); 
+                
+                
                 $arr_deal_ids[] = $deal->id;
                 $category->deals = implode(',', $arr_deal_ids);
                 
@@ -96,15 +98,15 @@ class DealController extends Controller
                 $msg = "Что-то пошло не так";
             }
             session(['deal' => $deal->content]);
-            return redirect()->route('category.show',['category'=>$category,'msg'=>$msg]);
+            //return redirect()->route('category.show',['category'=>$category,'msg'=>$msg]);
             
-            return view('components.supermain',['currentcategory'=>$category,'active'=>'Добавить дело','mode'=>'ShowCategory','msg'=>$msg]);
+            return view('components.supermain',['currentcategory'=>$category, 'deal'=>$deal,'active'=>null,'mode'=>'ShowDeal','msg'=>$msg]);
         }
         
     }
     public function find($category){
         
-        return view('components.supermain',['currentcategory'=>$category,'active'=>'Поиск','mode'=>'Found','msg'=>null]);
+        return view('components.supermain',['currentcategory'=>$category,'active'=>'Поиск','mode'=>'Found', 'deal'=>null,'msg'=>null]);
     }
 
     /**
@@ -133,7 +135,7 @@ class DealController extends Controller
         //dd($category);
         //return view('components.form-edit-deal',['deal'=>$deal,'currentcategory'=>$category]);
         //dd($slot);
-        return view('components.supermain',['active'=>'Редактировать дело','mode'=>'EditDeal', 'currentcategory'=>$category, 'msg'=>null]);
+        return view('components.supermain',['active'=>'Редактировать дело','mode'=>'EditDeal', 'currentcategory'=>$category, 'deal'=>null, 'msg'=>null]);
     }
 
     /**
@@ -153,7 +155,7 @@ class DealController extends Controller
         $category = Category::find($deal->category_id);
         
         return view('components.supermain',['active'=>'Главная','mode'=>'ShowCategory',
-               'currentcategory'=>$category, 'msg'=>null]);
+               'currentcategory'=>$category, 'deal'=>null, 'msg'=>null]);
     }
 
     /**
@@ -218,7 +220,7 @@ class DealController extends Controller
         if($mode==null) $mode = 'Vote';
         
        
-        return view('components.supermain',['active'=>'Расставить приоритеты','mode'=>$mode,'currentcategory'=>$category, 'msg'=>$msg]);
+        return view('components.supermain',['active'=>'Расставить приоритеты','mode'=>$mode,'currentcategory'=>$category, 'deal'=>null, 'msg'=>$msg]);
     }
     
     public function voteStore( \App\Models\Category $category, Deal $winDeal, Deal $loserDeal, Request $request){
@@ -259,7 +261,7 @@ class DealController extends Controller
         //dump(session("countvote.$category->id.0"));
         $mode = $request->mode;
         //dd($mode);
-        return view('components.supermain',['active'=>'Расставить приоритеты','mode'=>"$mode",'currentcategory'=>$category, 'msg'=>null]);
+        return view('components.supermain',['active'=>'Расставить приоритеты','mode'=>"$mode",'currentcategory'=>$category, 'deal'=>null, 'msg'=>null]);
         
         
     }

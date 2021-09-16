@@ -1,7 +1,7 @@
 <div class="border-solid border-4 border-light-blue-500">
    
     <div class="p-6">
-        
+      
         
          
         
@@ -38,6 +38,12 @@
                 <x-creat-deal-form :currentcategory="$currentcategory">
    
                 </x-creat-deal-form>
+            @endif
+            @if($mode==='ShowDeal')   
+            {{$msg}}
+            <x-deal-comp :deal="$deal" :category="$category">
+                
+            </x-deal-comp>
             @endif
             @if($mode=='Vote' || $mode=='preCreateDeal')    
             

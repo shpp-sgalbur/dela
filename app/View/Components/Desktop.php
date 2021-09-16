@@ -11,7 +11,7 @@ class Desktop extends Component
     public $mode;
     public $currentcategory;
     public $category;
-    
+    public $deal;
     public $active ;
     public $msg;
     public $slot;
@@ -20,7 +20,7 @@ class Desktop extends Component
      *
      * @return void
      */
-    public function __construct( $active ='Главная',$mode = "Home", $currentcategory=null, $category=null, $msg=null)
+    public function __construct( $active ='Главная',$mode = "Home", $currentcategory=null, $category=null, $deal = null,$msg=null)
     {
        
         $this->active=$active;
@@ -59,6 +59,8 @@ class Desktop extends Component
         }
        // echo 'desktop'.$this->currentcategory.'php';
        $this->category=$category;
+       if($deal) $this->deal = $deal;
+       
        $this->msg=$msg;
        
         
