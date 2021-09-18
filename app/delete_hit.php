@@ -26,6 +26,7 @@ function historyToStr($arr){
 }
 function getPare($id_history,$pos, $del_id){
     global $history_matr;
+    
 
 
     //Идентификатор истории первого хита, в которой находится запись о втором хите пары
@@ -104,6 +105,7 @@ function getPare($id_history,$pos, $del_id){
  */
 function findParePos($history,$id_hit,$n){
     echo $id_hit.' $n='.$n;
+   
      for($i=0;$i<sizeof($history);$i++){
               
         if ($history[$i]['pare_id'] == $id_hit){
