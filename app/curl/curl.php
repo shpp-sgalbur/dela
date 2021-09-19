@@ -103,7 +103,7 @@ function  getTitle ($htmlPage){
         }
          
         if($title == false) $title = '';
-        dd($title);
+        //dd($title);
             
     }
 
