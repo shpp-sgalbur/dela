@@ -83,16 +83,16 @@ function  getTitle ($htmlPage){
         $endTitle =  stripos($htmlPage, "<",$startTitle);
         $title = substr($htmlPage, $startTitle,$endTitle-$startTitle);
         
-        dump($title);
+        //dump($title);
         //echo '-------';
       
-        dump(mb_detect_encoding($title));
+        //dump(mb_detect_encoding($title));
         
          
         //echo '======';
         
         $charset = checkCharset($title);
-        dump($charset);
+        //dump($charset);
         
         //echo '======';
        // dump(mb_convert_encoding($title,"UTF-8"));
@@ -149,27 +149,24 @@ function checkEncoding ( $string, $string_encoding )
     $str = $string;
     $fs = $string_encoding == 'UTF-8' ? 'UTF-32' : $string_encoding;
     $ts = $string_encoding == 'UTF-32' ? 'UTF-8' : $string_encoding;
-    dump('((((((((');
-    dump($fs);
-    dump($ts);
-    dump(')))))))');
+    
     if($fs == $ts){
         try{
-            dump(mb_convert_variables("UTF-8", $string_encoding, $string));//$string_encoding->utf8
+            mb_convert_variables("UTF-8", $string_encoding, $string);//$string_encoding->utf8
         } catch (Exception $ex) {
-            dump("Error");
+           
             @mb_convert_variables(mb_internal_encoding(), $string_encoding, $string);
-            dump("string = ".$string);
+            
         }
-        dump("string = ".$string);
+        
         $str1 = mb_convert_encoding ( $str,'UTF-8',$fs );//fs->utf8
-        dump('str1='.$str1);
+        
         $str2 = mb_convert_encoding ( $str, 'UTF-32', $fs );//fs->utf32
         //dump(iconv($fs, "UTF-8"."//IGNORE", $string));
         
-        dump('str2='.$str2);
+        
         $str3 = mb_convert_encoding ( $str2, 'UTF-8','UTF-32');//utf8->utf32
-         dump('str3='.$str3);
+        
         //$str2 = mb_convert_encoding ( $str, 'UTF-8', $fs );
         //dump($str);
         return $str1 === $str3;
