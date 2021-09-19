@@ -82,14 +82,125 @@ function  getTitle ($htmlPage){
         //находим позицию < от текущей
         $endTitle =  stripos($htmlPage, "<",$startTitle);
         $title = substr($htmlPage, $startTitle,$endTitle-$startTitle);
-        $charset = getCharset($htmlPage);
         
-        $title_after_convert = @iconv($charset,"utf-8", $title);
-        if($title_after_convert) $title = $title_after_convert;
+        dump($title);
+        //echo '-------';
+      
+        dump(mb_detect_encoding($title));
+        
+         
+        //echo '======';
+        
+        $charset = checkCharset($title);
+        dump($charset);
+        
+        //echo '======';
+       // dump(mb_convert_encoding($title,"UTF-8"));
+        //dump(mb_convert_encoding(mb_convert_encoding($title,"utf-8","KOI8-R"),"KOI8-R","UTF-8"));
+        if($charset != "UTF-8"){
+            
+            $title = @mb_convert_encoding($title,"utf-8",$charset);
+        }
+         
+        if($title == false) $title = '';
+        dd($title);
+            
     }
 
     return $title;
 }
+function checkCharset($string){
+    $charSetArr = [
+        "UTF-8",
+        "Windows-1251",
+        "Windows-1252",
+        "KOI8-R",
+        //"ISO 8859-1",
+        //"ISO 8859-5",
+        //"CP 866",
+        
+        "UTF-16",
+        "ASCII"
+    ];
+    $res = false;
+//    try{
+//        dump(mb_convert_variables("UTF-8", $charSetArr, $string));
+//    } catch (Exception $ex) {
+//        dump("string befor= ".$string);
+//        dump("Error");
+//        @dump(mb_convert_variables(mb_internal_encoding(), "Windows-1251", $string));
+//        dump("string after = ".$string);
+//    }
+//    
+//    dump($string);
+    foreach ($charSetArr as $charSet){
+        if (checkEncoding($string, $charSet)){
+            return $res=$charSet;
+        }
+    
+    }
+    return $res;
+    
+}
+
+
+function checkEncoding ( $string, $string_encoding )
+{
+    $str = $string;
+    $fs = $string_encoding == 'UTF-8' ? 'UTF-32' : $string_encoding;
+    $ts = $string_encoding == 'UTF-32' ? 'UTF-8' : $string_encoding;
+    dump('((((((((');
+    dump($fs);
+    dump($ts);
+    dump(')))))))');
+    if($fs == $ts){
+        try{
+            dump(mb_convert_variables("UTF-8", $string_encoding, $string));//$string_encoding->utf8
+        } catch (Exception $ex) {
+            dump("Error");
+            @mb_convert_variables(mb_internal_encoding(), $string_encoding, $string);
+            dump("string = ".$string);
+        }
+        dump("string = ".$string);
+        $str1 = mb_convert_encoding ( $str,'UTF-8',$fs );//fs->utf8
+        dump('str1='.$str1);
+        $str2 = mb_convert_encoding ( $str, 'UTF-32', $fs );//fs->utf32
+        //dump(iconv($fs, "UTF-8"."//IGNORE", $string));
+        
+        dump('str2='.$str2);
+        $str3 = mb_convert_encoding ( $str2, 'UTF-8','UTF-32');//utf8->utf32
+         dump('str3='.$str3);
+        //$str2 = mb_convert_encoding ( $str, 'UTF-8', $fs );
+        //dump($str);
+        return $str1 === $str3;
+    }
+    return $string === mb_convert_encoding ( mb_convert_encoding ( $string, $fs, $ts ), $ts, $fs );
+}
+
+function detectEncoding($string)
+{
+    $arr_encodings = [
+        'CP1251',
+        'UCS-2LE',
+        'UCS-2BE',
+        'UTF-8',
+        'UTF-16',
+        'UTF-16BE',
+        'UTF-16LE',
+        'CP866',
+    ];
+    
+    $res = false;
+    foreach($arr_encodings as $encoding){
+        if (checkEncoding($string, $encoding)){
+            return $res=$encoding;
+        }
+        
+    }
+   
+    return $res;
+}
+
 /*
  * Получает заголовок страницы по ее url и преобразует его в ссылку
  */
@@ -99,7 +210,7 @@ function titleAsLink($strUrl){
 }
 
 function getCharset($htmlPage){
-    $charset ='ASCII';//РєРѕРґРёСЂРѕРІРєР° РїРѕ СѓРјРѕР»С‡Р°РЅРёСЋ
+    $charset = false;
     
     if (strlen($htmlPage)){
         
