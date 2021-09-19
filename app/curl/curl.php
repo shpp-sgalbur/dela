@@ -18,7 +18,7 @@ echo getCharset($str);*/
 //echo $link;
 //if (strlen($link)) echo '<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">'.$link; else echo "Title is not exist";
 /*
- * СЌС‚РѕС‚ РїР°РєРµС‚ С„СѓРЅРєС†РёР№ РїСЂРµРґРЅР°Р·РЅР°С‡РµРЅ РґР»СЏ РІС‹Р±РѕСЂРєРё
+ * этот пакет функций предназначен для выборки
  */
 
 function getUrlFromStr($str){
@@ -44,7 +44,7 @@ function getUrlFromStr($str){
 }
 
 /*
- * РџРѕР»СѓС‡Р°РµС‚ html-РєРѕРґ СЃС‚СЂР°РЅРёС†С‹ РїРѕ РµРµ url
+ * Получает html-код страницы по ее url
  */
 function getHTML($strURL){
     
@@ -58,7 +58,7 @@ function getHTML($strURL){
     curl_setopt($ch, CURLOPT_USERPWD, "Gal_sergey@ukr.net:student");
     curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
     curl_setopt($ch, CURLOPT_COOKIESESSION, false);        
-    curl_setopt($ch, CURLOPT_USERAGENT, $_SERVER['HTTP_USER_AGENT']);//СЃ СЌС‚РѕР№ СЃС‚СЂРѕС‡РєРѕР№ Р·Р°СЂР°Р±РѕС‚Р°Р» С„РµР№СЃР±СѓРє.
+    curl_setopt($ch, CURLOPT_USERAGENT, $_SERVER['HTTP_USER_AGENT']);//с этой строчкой заработал фейсбук.
 
     $response_data = curl_exec($ch);
     
@@ -70,16 +70,16 @@ function getHTML($strURL){
 
 }
 /*
- * РџРѕР»СѓС‡Р°РµС‚ Р·Р°РіРѕР»РѕРІРѕРє СЃС‚СЂР°РЅРёС† РёР· РєРѕРґР° СЃС‚СЂР°РЅРёС†С‹
+ * Получает заголовок страниц из кода страницы
  */
 function  getTitle ($htmlPage){
     $title ='';
     if (strlen($htmlPage)){
-        //РЅР°С…РѕРґРёРј РІС…РѕР¶РґРµРЅРёРµ СЃС‚СЂРѕРєРё <title>
+        //находим вхождение строки <title>
         $pos = stripos($htmlPage, "<title");
-        //РЅР°С…РѕРґРёРј РїРѕР·РёС†РёСЋ > РѕС‚ С‚РµРєСѓС‰РµР№
+        //находим позицию > от текущей
         $startTitle  = stripos($htmlPage, ">",$pos)+1;
-        //РЅР°С…РѕРґРёРј РїРѕР·РёС†РёСЋ < РѕС‚ С‚РµРєСѓС‰РµР№
+        //находим позицию < от текущей
         $endTitle =  stripos($htmlPage, "<",$startTitle);
         $title = substr($htmlPage, $startTitle,$endTitle-$startTitle);
         $charset = getCharset($htmlPage);
@@ -91,7 +91,7 @@ function  getTitle ($htmlPage){
     return $title;
 }
 /*
- * РџРѕР»СѓС‡Р°РµС‚ Р·Р°РіРѕР»РѕРІРѕРє СЃС‚СЂР°РЅРёС†С‹ РїРѕ РµРµ url Рё РїСЂРµРѕР±СЂР°Р·СѓРµС‚ РµРіРѕ РІ СЃСЃС‹Р»РєСѓ
+ * Получает заголовок страницы по ее url и преобразует его в ссылку
  */
 function titleAsLink($strUrl){
     $title = getTitle(getHTML($strUrl));
@@ -103,7 +103,7 @@ function getCharset($htmlPage){
     
     if (strlen($htmlPage)){
         
-        //РЅР°С…РѕРґРёРј РІС…РѕР¶РґРµРЅРёРµ СЃС‚СЂРѕРєРё charset
+        //находим вхождение строки charset
         if(stripos($htmlPage, 'charset')){
             $pos = stripos($htmlPage, 'charset') + strlen('charset') + 1;
             if($pos){
