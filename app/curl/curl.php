@@ -18,7 +18,7 @@ echo getCharset($str);*/
 //echo $link;
 //if (strlen($link)) echo '<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">'.$link; else echo "Title is not exist";
 /*
- * этот пакет функций предназначен для выборки
+ * СЌС‚РѕС‚ РїР°РєРµС‚ С„СѓРЅРєС†РёР№ РїСЂРµРґРЅР°Р·РЅР°С‡РµРЅ РґР»СЏ РІС‹Р±РѕСЂРєРё
  */
 
 function getUrlFromStr($str){
@@ -44,7 +44,7 @@ function getUrlFromStr($str){
 }
 
 /*
- * Получает html-код страницы по ее url
+ * РџРѕР»СѓС‡Р°РµС‚ html-РєРѕРґ СЃС‚СЂР°РЅРёС†С‹ РїРѕ РµРµ url
  */
 function getHTML($strURL){
     
@@ -58,7 +58,7 @@ function getHTML($strURL){
     curl_setopt($ch, CURLOPT_USERPWD, "Gal_sergey@ukr.net:student");
     curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
     curl_setopt($ch, CURLOPT_COOKIESESSION, false);        
-    curl_setopt($ch, CURLOPT_USERAGENT, $_SERVER['HTTP_USER_AGENT']);//с этой строчкой заработал фейсбук.
+    curl_setopt($ch, CURLOPT_USERAGENT, $_SERVER['HTTP_USER_AGENT']);//СЃ СЌС‚РѕР№ СЃС‚СЂРѕС‡РєРѕР№ Р·Р°СЂР°Р±РѕС‚Р°Р» С„РµР№СЃР±СѓРє.
 
     $response_data = curl_exec($ch);
     
@@ -70,122 +70,28 @@ function getHTML($strURL){
 
 }
 /*
- * Получает заголовок страниц из кода страницы
+ * РџРѕР»СѓС‡Р°РµС‚ Р·Р°РіРѕР»РѕРІРѕРє СЃС‚СЂР°РЅРёС† РёР· РєРѕРґР° СЃС‚СЂР°РЅРёС†С‹
  */
 function  getTitle ($htmlPage){
     $title ='';
     if (strlen($htmlPage)){
-        //находим вхождение строки <title>
+        //РЅР°С…РѕРґРёРј РІС…РѕР¶РґРµРЅРёРµ СЃС‚СЂРѕРєРё <title>
         $pos = stripos($htmlPage, "<title");
-        //находим позицию > от текущей
+        //РЅР°С…РѕРґРёРј РїРѕР·РёС†РёСЋ > РѕС‚ С‚РµРєСѓС‰РµР№
         $startTitle  = stripos($htmlPage, ">",$pos)+1;
-        //находим позицию < от текущей
+        //РЅР°С…РѕРґРёРј РїРѕР·РёС†РёСЋ < РѕС‚ С‚РµРєСѓС‰РµР№
         $endTitle =  stripos($htmlPage, "<",$startTitle);
         $title = substr($htmlPage, $startTitle,$endTitle-$startTitle);
+        $charset = getCharset($htmlPage);
         
-        dump($title);
-        echo '-------';
-      
-        dump(mb_detect_encoding($title));
-        echo '======';
-        
-        $charset = checkCharset($title);
-        dump($charset);
-        echo '======';
-        dump(mb_convert_encoding($title,"UTF-8"));
-        dd(mb_convert_encoding(mb_convert_encoding($title,"utf-8","KOI8-R"),"KOI8-R","UTF-8"));
-        if($charset != "UTF-8"){
-            
-            $title = mb_convert_encoding($title,"utf-8",$charset);
-        }
-         
-        if($title == false) $title = '';
-        
-            
+        $title_after_convert = @iconv($charset,"utf-8", $title);
+        if($title_after_convert) $title = $title_after_convert;
     }
 
     return $title;
 }
-function checkCharset($string){
-    $charSetArr = [
-        "KOI8-R",
-        "Windows-1251",
-        "Windows-1252",
-        
-        //"ISO 8859-1",
-        //"ISO 8859-5",
-        //"CP 866",
-        "UTF-8",
-        "UTF-16",
-        "ASCII"
-    ];
-    $res = false;
-    try{
-        dump(mb_convert_variables("UTF-8", $charSetArr, $string));
-    } catch (Exception $ex) {
-        dump("Error");
-        @dump(mb_convert_variables(mb_internal_encoding(), "Windows-1251", $string));
-    }
-    
-    dump($string);
-    foreach ($charSetArr as $charSet){
-        if (checkEncoding($string, $charSet)){
-            return $res=$charSet;
-        }
-    
-    }
-    return $res;
-    
-}
-
-function checkEncoding ( $string, $string_encoding )
-{
-    $fs = $string_encoding == 'UTF-8' ? 'UTF-32' : $string_encoding;
-    $ts = $string_encoding == 'UTF-32' ? 'UTF-8' : $string_encoding;
-    dump($fs);
-    dump($ts);
-    if($fs == $ts){
-        $str1 = mb_convert_encoding ( $string,$fs,'UTF-32' );
-        dump('str1='.$str1);
-        $str2 = mb_convert_encoding ( $string, 'UTF-32', $fs );
-        //dump(iconv($fs, "UTF-8"."//IGNORE", $string));
-        
-        dump('str2='.$str2);
-        $str3 = mb_convert_encoding ( $str2,'UTF-8', 'UTF-32' );
-         dump('str3='.$str3);
-        //$str2 = mb_convert_encoding ( $str, 'UTF-8', $fs );
-        //dump($str);
-        return $str1 === $str3;
-    }
-    return $string === mb_convert_encoding ( mb_convert_encoding ( $string, $fs, $ts ), $ts, $fs );
-}
-
-function detectEncoding($string)
-{
-    $arr_encodings = [
-        'CP1251',
-        'UCS-2LE',
-        'UCS-2BE',
-        'UTF-8',
-        'UTF-16',
-        'UTF-16BE',
-        'UTF-16LE',
-        'CP866',
-    ];
-    
-    $res = false;
-    foreach($arr_encodings as $encoding){
-        if (checkEncoding($string, $encoding)){
-            return $res=$encoding;
-        }
-        
-    }
-   
-    return $res;
-}
-
 /*
- * Получает заголовок страницы по ее url и преобразует его в ссылку
+ * РџРѕР»СѓС‡Р°РµС‚ Р·Р°РіРѕР»РѕРІРѕРє СЃС‚СЂР°РЅРёС†С‹ РїРѕ РµРµ url Рё РїСЂРµРѕР±СЂР°Р·СѓРµС‚ РµРіРѕ РІ СЃСЃС‹Р»РєСѓ
  */
 function titleAsLink($strUrl){
     $title = getTitle(getHTML($strUrl));
@@ -193,11 +99,11 @@ function titleAsLink($strUrl){
 }
 
 function getCharset($htmlPage){
-    $charset = false;
+    $charset ='ASCII';//РєРѕРґРёСЂРѕРІРєР° РїРѕ СѓРјРѕР»С‡Р°РЅРёСЋ
     
     if (strlen($htmlPage)){
         
-        //находим вхождение строки charset
+        //РЅР°С…РѕРґРёРј РІС…РѕР¶РґРµРЅРёРµ СЃС‚СЂРѕРєРё charset
         if(stripos($htmlPage, 'charset')){
             $pos = stripos($htmlPage, 'charset') + strlen('charset') + 1;
             if($pos){
