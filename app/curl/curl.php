@@ -106,7 +106,7 @@ function  getTitle ($htmlPage){
         //dd($title);
             
     }
-
+    
     return $title;
 }
 function checkCharset($string){
@@ -193,6 +193,7 @@ function detectEncoding($string)
  */
 function titleAsLink($strUrl){
     $title = getTitle(getHTML($strUrl));
+    if($title == '') $title = $strUrl;
     return "<a href = '$strUrl' class='hover:text-blue-800'>$title</a>";
 }
 
