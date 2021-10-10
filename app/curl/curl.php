@@ -106,7 +106,7 @@ function  getTitle ($htmlPage){
         //dd($title);
             
     }
-
+    
     return $title;
 }
 function checkCharset($string){
@@ -122,7 +122,7 @@ function checkCharset($string){
         "UTF-16",
         "ASCII"
     ];
-    $res = false;
+    
 //    try{
 //        dump(mb_convert_variables("UTF-8", $charSetArr, $string));
 //    } catch (Exception $ex) {
@@ -135,11 +135,11 @@ function checkCharset($string){
 //    dump($string);
     foreach ($charSetArr as $charSet){
         if (checkEncoding($string, $charSet)){
-            return $res=$charSet;
+            return $charSet;
         }
     
     }
-    return $res;
+    return false;
     
 }
 
@@ -147,31 +147,21 @@ function checkCharset($string){
 function checkEncoding ( $string, $string_encoding )
 {
     $str = $string;
-    $fs = $string_encoding == 'UTF-8' ? 'UTF-32' : $string_encoding;
-    $ts = $string_encoding == 'UTF-32' ? 'UTF-8' : $string_encoding;
-    
-    if($fs == $ts){
-        try{
-            mb_convert_variables("UTF-8", $string_encoding, $string);//$string_encoding->utf8
-        } catch (Exception $ex) {
-           
-            @mb_convert_variables(mb_internal_encoding(), $string_encoding, $string);
-            
-        }
+    if($string_encoding != 'UTF-8' && $string_encoding != 'UTF-32'){        
         
-        $str1 = mb_convert_encoding ( $str,'UTF-8',$fs );//fs->utf8
+        $str1 = mb_convert_encoding ( $str,'UTF-8',$string_encoding );//$string_encoding->utf8
         
-        $str2 = mb_convert_encoding ( $str, 'UTF-32', $fs );//fs->utf32
+        $str2 = mb_convert_encoding ( $str, 'UTF-32', $string_encoding );//$string_encoding->utf32
         //dump(iconv($fs, "UTF-8"."//IGNORE", $string));
         
         
-        $str3 = mb_convert_encoding ( $str2, 'UTF-8','UTF-32');//utf8->utf32
+        $str3 = mb_convert_encoding ( $str2, 'UTF-8','UTF-32');//utf32->utf8
         
         //$str2 = mb_convert_encoding ( $str, 'UTF-8', $fs );
         //dump($str);
         return $str1 === $str3;
     }
-    return $string === mb_convert_encoding ( mb_convert_encoding ( $string, $fs, $ts ), $ts, $fs );
+    return $string === mb_convert_encoding ( mb_convert_encoding ( $string, 'UTF-32', 'UTF-8' ), 'UTF-8', 'UTF-32' );
 }
 
 function detectEncoding($string)
@@ -203,6 +193,7 @@ function detectEncoding($string)
  */
 function titleAsLink($strUrl){
     $title = getTitle(getHTML($strUrl));
+    if($title == '') $title = $strUrl;
     return "<a href = '$strUrl' class='hover:text-blue-800'>$title</a>";
 }
 
