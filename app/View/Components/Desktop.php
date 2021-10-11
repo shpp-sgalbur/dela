@@ -59,7 +59,7 @@ class Desktop extends Component
         }
        // echo 'desktop'.$this->currentcategory.'php';
        $this->category=$category;
-       if($deal) $this->deal = $deal;
+       $this->deal = $deal;
        
        $this->msg=$msg;
        

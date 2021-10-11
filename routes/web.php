@@ -33,7 +33,7 @@ Route::get('/vote/form/category/{category}',[\App\Http\Controllers\DealControlle
 Route::post('/vote/store/category/{category}/{winDeal}-{loserDeal}', [\App\Http\Controllers\DealController::class,'voteStore'])->name('voteStore')->middleware('auth');
 Route::get('/vote/store/category/{category}/{winDeal}-{loserDeal}', [\App\Http\Controllers\DealController::class,'voteStore'])->name('voteStore')->middleware('auth');
 Route::get('find/{category}', function($category){
-    return view('components.supermain',['currentcategory'=>$category,'active'=>'Поиск','mode'=>'Find','msg'=>'']);
+    return view('components.supermain',['currentcategory'=>$category,'active'=>'Поиск','mode'=>'Find','msg'=>'','deal'=>null]);
 })->name('findForm')->middleware('auth');
 Route::post('found/{category}', [\App\Http\Controllers\DealController::class,'find'])->name('find')->middleware('auth');
 Route::get('delete/{category}', [\App\Http\Controllers\CategoryController::class,'proveDel'])->name('proveDel')->middleware('auth');
