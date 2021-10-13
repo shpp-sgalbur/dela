@@ -5,6 +5,6 @@
     <form action="{{route('category.store')}}" method="post" class=" m-2 p-2   ">
         @csrf
         <input type="text" name="category" placeholder="название категории">
-        <input type="submit" name="btn_category" value="Создать" class=" m-2">
+        <input type="submit" name="btn_category" value="Создать" class="cursor-pointer m-2">
     </form>
     </div>

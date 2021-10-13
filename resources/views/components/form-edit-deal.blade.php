@@ -7,6 +7,6 @@
                 @csrf
                 @method('PUT')
                 <textarea rows="5" cols="45" name="deal" value="{{$deal->content}}">{{$deal->content}}</textarea>
-                <input type="submit" name="btn_category" value="Сохранить" class ="border-2 border-green-500 border-solid ml-3 p-1 rounded-lg bg-green-200 h-10">
+                <input type="submit" name="btn_category" value="Сохранить" class ="cursor-pointer border-2 border-green-500 border-solid ml-3 p-1 rounded-lg bg-green-200 h-10">
             </form>
             </div>
