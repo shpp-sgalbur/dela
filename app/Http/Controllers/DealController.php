@@ -154,8 +154,8 @@ class DealController extends Controller
         $deal->save();
         $category = Category::find($deal->category_id);
         
-        return view('components.supermain',['active'=>'Главная','mode'=>'ShowCategory',
-               'currentcategory'=>$category, 'deal'=>null, 'msg'=>null]);
+        return redirect()->route('category.show',['category'=>$category->id, 'deal'=>null, 'msg'=>null]);
+        
     }
 
     /**
