@@ -98,9 +98,9 @@ class DealController extends Controller
                 $msg = "Что-то пошло не так";
             }
             session(['deal' => $deal->content]);
-            //return redirect()->route('category.show',['category'=>$category,'msg'=>$msg]);
             
-            return view('components.supermain',['currentcategory'=>$category, 'deal'=>$deal,'active'=>null,'mode'=>'ShowDeal','msg'=>$msg]);
+            return redirect()->route('category.show',['category'=>$category->id, 'deal'=>null, 'msg'=>null]);
+            
         }
         
     }
