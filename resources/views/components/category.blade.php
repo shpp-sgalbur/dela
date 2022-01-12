@@ -1,4 +1,5 @@
 <link rel="stylesheet" href="{{ asset('css/app.css') }}"> 
+    
 <div class ="h-auto hover:bg-green-500" >
     <div class ="flex flex-row   px-2 " >
         <a href="{{route('category.show',['category'=>$category])}} ">
@@ -10,21 +11,29 @@
                     <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
                                 viewBox="0 0 50 50" style="enable-background:new 0 0 50 50;" xml:space="preserve">
                         <title>Переименовать</title>
-                       <g id="Layer_1_1_">
-                               <path d="M18.293,31.707h6.414l24-24l-6.414-6.414l-24,24V31.707z M45.879,7.707l-3.586,3.586l-3.586-3.586l3.586-3.586
-                                       L45.879,7.707z M20.293,26.121l17-17l3.586,3.586l-17,17h-3.586V26.121z"/>
-                               <polygon points="43.293,19.707 41.293,19.707 41.293,46.707 3.293,46.707 3.293,8.707 31.293,8.707 31.293,6.707 1.293,6.707 
-                                       1.293,48.707 43.293,48.707 	"/>
-                       </g>
+                        <g id="Layer_1_1_">
+                                <path d="M18.293,31.707h6.414l24-24l-6.414-6.414l-24,24V31.707z M45.879,7.707l-3.586,3.586l-3.586-3.586l3.586-3.586
+                                        L45.879,7.707z M20.293,26.121l17-17l3.586,3.586l-17,17h-3.586V26.121z"/>
+                                <polygon points="43.293,19.707 41.293,19.707 41.293,46.707 3.293,46.707 3.293,8.707 31.293,8.707 31.293,6.707 1.293,6.707 
+                                        1.293,48.707 43.293,48.707 	"/>
+                        </g>
                     </svg>
 
                 </a>
             </div>
-            <form  > 
+            
+               
+            @if($empty)
+                <form method="POST" > 
+                @method('DELETE')
+            @else
+                <form > 
+
+            @endif
                 
                 
                 @csrf
-                <button formaction="{{route('proveDel',['category'=>$category])}}" class ="cursor-pointer border-2 border-green-500 border-solid  p-1 rounded-lg bg-red-300  h-8 w-8">
+                <button formaction="{{$linkDelButton}}"   class ="cursor-pointer border-2 border-green-500 border-solid  p-1 rounded-lg bg-red-300  h-8 w-8">
 
                     <svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                         <title>Удалить</title>
