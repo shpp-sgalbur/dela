@@ -3,7 +3,6 @@
 namespace App\View\Components;
 
 use Illuminate\View\Component;
-use App\Models\Deal;
 
 
 class Category extends Component
@@ -11,8 +10,6 @@ class Category extends Component
     public $category;
     public $id;
     public $owner_id;
-    public $empty;
-    public $linkDelButton;
     /**
      * Create a new component instance.
      *
@@ -22,20 +19,6 @@ class Category extends Component
     {
         
         $this->category = $category;
-        //по идентификатору категории получаем первое дело в категории
-        $empty = Deal::where('category_id', $category->id)->first();
-        if($empty === null){
-            $this->empty = true;
-            $this->linkDelButton = route('category.destroy',['category'=>$category]);
-            
-            
-        }
-        else{
-            $this->empty = false;
-            $this->linkDelButton = route('proveDel',['category'=>$category]);
-            
-        }
-        
         
     }
 
