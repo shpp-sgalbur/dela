@@ -94,12 +94,16 @@ class DealController extends Controller
             });
             if($transaction){
                 $msg = "Дело $deal->content успешно добавлено";
+                session(['deal' => $deal->content]);
+                return redirect()->route('deal.show',['deal'=>$deal]);
             }else{
                 $msg = "Что-то пошло не так";
+                return view('components.supermain',['currentcategory'=>$category, 'deal'=>null,'active'=>null,'mode'=>'ShowDeal','msg'=>$msg]);
             }
-            session(['deal' => $deal->content]);
             
-            return redirect()->route('category.show',['category'=>$category->id, 'deal'=>null, 'msg'=>null]);
+            
+            
+            
             
         }
         
@@ -117,6 +121,13 @@ class DealController extends Controller
      */
     public function show($id)
     {
+        
+        $deal = Deal::find($id);
+        
+        $category = \App\Models\Category::where('id',$deal->category_id)->first();
+       
+         return view('components.supermain',['currentcategory'=>$category, 'deal'=>$deal,'active'=>'Добавить дело','mode'=>'ShowDeal','msg'=>null]);
+        
         //
     }
 
