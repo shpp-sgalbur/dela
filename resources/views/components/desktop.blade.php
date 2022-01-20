@@ -41,6 +41,7 @@
             @endif
             @if($mode==='ShowDeal')   
             {{$msg}}
+            <div>Дело добавлено в категорию <b>{{$category->category}}</b></div>
             <x-deal-comp :deal="$deal" :category="$category">
                 
             </x-deal-comp>
