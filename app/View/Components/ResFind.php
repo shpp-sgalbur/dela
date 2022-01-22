@@ -24,8 +24,7 @@ class ResFind extends Component
     {
         $msg='';
         if($request->input('word')[1] =="" and $request->input('word')[2] == ""){
-            $msg = "Ни одно поле не заполнено";
-            $this->msg;
+            $this->msg = "Ни одно поле не заполнено";
         }else{
             //если надо выполнить поиск в текущей категории
             if(isset($request->input('Submit')[1])){
@@ -66,15 +65,16 @@ class ResFind extends Component
                 }
                 $res = Deal::whereRaw( $where)->whereRaw("content LIKE ?",['%'.$searchString.'%'])->get();
             }
+            $this->dealsList=$res;
+        
+            $count = sizeof($res);
+            $this->msg = "Результат поиска $msg:<br>"
+                    ."<b>".$request->input('word')[1]."</b>"."<br>"
+                    ."<b>".$request->input('word')[2]."</b>"."<br>"
+                    . " Обнаружено дел : <b>$count</b>.";
             
         }      
-        $this->dealsList=$res;
-        
-        $count = sizeof($res);
-        $this->msg = "Результат поиска $msg:<br>"
-                ."<b>".$request->input('word')[1]."</b>"."<br>"
-                ."<b>".$request->input('word')[2]."</b>"."<br>"
-                . " Обнаружено дел : <b>$count</b>.";
+
         
     }
     public function getCategoryName($id) {
