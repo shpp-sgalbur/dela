@@ -35,7 +35,8 @@ Route::get('/vote/store/category/{category}/{winDeal}-{loserDeal}', [\App\Http\C
 Route::get('find/{category}', function($category){
     return view('components.supermain',['currentcategory'=>$category,'active'=>'Поиск','mode'=>'Find','msg'=>'','deal'=>null]);
 })->name('findForm')->middleware('auth');
-Route::post('found/{category}', [\App\Http\Controllers\DealController::class,'find'])->name('find')->middleware('auth');
+Route::get('found/{category}', [\App\Http\Controllers\DealController::class,'find'])->name('find')->middleware('auth');
+//Route::get('found/{category}', [\App\Http\Controllers\DealController::class,'resFind'])->name('resFind')->middleware('auth');
 Route::get('delete/{category}', [\App\Http\Controllers\CategoryController::class,'proveDel'])->name('proveDel')->middleware('auth');
 
 require __DIR__.'/auth.php';

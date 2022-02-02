@@ -1,5 +1,5 @@
-<form name="form_find" method="post" action="{{route('find',['category'=>$category])}}" >
-     @csrf
+<form name="form_find" method="get" action="{{route('find',['category'=>$category])}}" >
+     
     <div class="m-2 p-2 border-solid border-green-500 border-4 rounded-2xl box-border">
         <h1 class=" m-2 text-3xl">Форма поиска</h1>
         <p>Введите по-одному слову в каждое поле. Желательно слова вводить без окончаний.<br>

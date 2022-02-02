@@ -22,6 +22,8 @@ class ResFind extends Component
      */
     public function __construct($category, Request $request)
     {
+        
+        
         $msg='';
         if($request->input('word')[1] =="" and $request->input('word')[2] == ""){
             $this->msg = "Ни одно поле не заполнено";
@@ -42,7 +44,9 @@ class ResFind extends Component
                 
             }
             //если заполнены оба поля
-            if($request->input('word')[1] !="" and $request->input('word')[2] != ""){
+            if(isset($request->input('word')[1]) and isset($request->input('word')[2]) and
+                    $request->input('word')[1] !="" and @$request->input('word')[2] != ""){
+                
                 //если Должно присутствовать любое из слов
                 
                 if($request->input('radiobutton') == 1){
@@ -59,9 +63,13 @@ class ResFind extends Component
                 //если заполнено только первое поле
                 if($request->input('word')[1] !=""){                        
                     $searchString = $request->input('word')[1];
+                    $word1 = $request->input('word')[1];
+                    $word2 = '';
                 }else{
                     //если заполнено только второе поле
-                    $searchString = $request->input('word')[2];                                               
+                    $searchString = $request->input('word')[2]; 
+                    $word2 = $request->input('word')[2];
+                    $word1 = '';
                 }
                 $res = Deal::whereRaw( $where)->whereRaw("content LIKE ?",['%'.$searchString.'%'])->get();
             }
@@ -69,8 +77,8 @@ class ResFind extends Component
         
             $count = sizeof($res);
             $this->msg = "Результат поиска $msg:<br>"
-                    ."<b>".$request->input('word')[1]."</b>"."<br>"
-                    ."<b>".$request->input('word')[2]."</b>"."<br>"
+                    ."<b>".$word1."</b>"."<br>"
+                    ."<b>".$word2."</b>"."<br>"
                     . " Обнаружено дел : <b>$count</b>.";
             
         }      
