@@ -195,7 +195,7 @@ function detectEncoding($string)
 function titleAsLink($strUrl){
     $title = getTitle(getHTML($strUrl));
     if($title == '') $title = $strUrl;
-    return "<a href = '$strUrl' class='hover:text-blue-800'>$title</a>";
+    return "<a href = '$strUrl' class='text-blue-800 hover:underline'>$title</a>";
 }
 
 function getCharset($htmlPage){
